@@ -10,11 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="projecttadhisto.qtma.com.hackclock.AlarmActivity">
 
-    <TextView
-        android:text="TextView"
+    <EditText
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
-        android:id="@+id/textView"
+        android:layout_height="300dp"
+        android:id="@+id/editText"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true" />
 
@@ -22,8 +21,10 @@
         android:text="Turn Off"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/editText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="46dp"
-        android:id="@+id/stopAlarm" />
+        android:id="@+id/stopAlarm"
+        android:onClick="onTurnOff"/>
+
 </RelativeLayout>

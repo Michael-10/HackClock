@@ -228,4 +228,9 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoaderReset(Loader<Cursor> loader) {
         cursorAdapter.swapCursor(null);
     }
+
+    public void alarmTest (View v) {
+        Intent intent = new Intent(this, AlarmActivity.class);
+        startActivity(intent);
+    }
 }
