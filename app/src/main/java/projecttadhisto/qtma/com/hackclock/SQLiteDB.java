@@ -10,7 +10,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
     // database name and version
     // name needs .db
     private static final String DATABASE_NAME = "notes.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // database table and columns
     // id will be primary key and content provider will expect it to have "_" in front
@@ -20,17 +20,18 @@ public class SQLiteDB extends SQLiteOpenHelper {
     public static final String ALARM_MINUTE = "alarmMinute";
     public static final String ALARM_AM_PM = "alarmAmPm";
     public static final String ALARM_CREATED = "alarmCreated";
+    public static final String ALARM_TIME = "alarmTime";
 
     public static final String[] ALL_COLUMNS =
-            { ALARM_ID, ALARM_HOUR, ALARM_MINUTE, ALARM_AM_PM, ALARM_CREATED };
-
+            { ALARM_ID, ALARM_TIME, ALARM_CREATED };
     // SQL to create table
     private static final String TABLE_CREATE =
             "CREATE TABLE " + TABLE_ALARMS + " (" +
                     ALARM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    ALARM_HOUR + " INTEGER, " +
-                    ALARM_MINUTE + " INTEGER, " +
-                    ALARM_AM_PM + " TEXT, " +
+                    ALARM_TIME + " TEXT, " +
+//                    ALARM_HOUR + " INTEGER, " +
+//                    ALARM_MINUTE + " INTEGER, " +
+//                    ALARM_AM_PM + " TEXT, " +
                     ALARM_CREATED + " TEXT default CURRENT_TIMESTAMP" +
                     ")";
 

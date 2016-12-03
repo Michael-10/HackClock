@@ -76,4 +76,5 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_add_alarm">AddAlarmActivity</string>
     <string name="setalarm">Set Alarm</string>
+    <string name="are_you_sure">Are you sure?</string>
 </resources>
