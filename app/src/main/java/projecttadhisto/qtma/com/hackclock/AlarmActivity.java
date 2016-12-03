@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -57,8 +56,9 @@ public class AlarmActivity extends AppCompatActivity {
     public void onTurnOff(View v) {
         EditText userInput = (EditText) findViewById(R.id.editText);
         String userAnswer = userInput.getText().toString();
-        if (userAnswer.equals(answer.get(ran))) {
+        if (userAnswer.replaceAll("\\s+", "").equalsIgnoreCase(answer.get(ran).replaceAll("\\s+", ""))) {
             // turn off alarm
+            //a.replaceAll("\\s+","").equalsIgnoreCase(b.replaceAll("\\s+",""))
             Toast.makeText(this, "Answer Correct", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Answer Incorrect", Toast.LENGTH_SHORT).show();
