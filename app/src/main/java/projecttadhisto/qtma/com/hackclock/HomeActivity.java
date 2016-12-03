@@ -28,6 +28,9 @@ public class HomeActivity extends AppCompatActivity {
     ArrayList<String> alarms;
     AlarmAdapter adapter;
     ListView lvAlarms;
+    PendingIntent pendingIntent;
+    int hour;
+    int minute;
 
     private PendingIntent pendingIntent;
 
@@ -83,12 +86,28 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    public void alarmStart() {
+        Intent alarmIntent = new Intent(HomeActivity.this, AlarmReceiver.class);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        pendingIntent = PendingIntent.getBroadcast(HomeActivity.this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // get alarm time
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+
+        // set alarm
+        alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+    }
+
     // get activity result to add a new alarm
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if(resultCode == RESULT_OK){
                 String val = data.getStringExtra("setAlarm");
+                hour = data.getIntExtra("hour", -1);
+                minute = data.getIntExtra("minute", -1);
                 alarms.add(val);
                 adapter.notifyDataSetChanged();
                 Toast.makeText(this, "Alarm set for " + val, Toast.LENGTH_SHORT).show();

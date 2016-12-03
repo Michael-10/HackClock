@@ -53,6 +53,8 @@ public class AddAlarmActivity extends AppCompatActivity {
         //create intent to pass alarm value back and finish activity
         Intent setAlarm = new Intent(this, HomeActivity.class);
         setAlarm.putExtra("setAlarm", time);
+        setAlarm.putExtra("hour", hour);
+        setAlarm.putExtra("minute", min);
         setResult(RESULT_OK, setAlarm);
         finish();
     }
