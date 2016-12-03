@@ -88,23 +88,23 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                
+                alarmStart();
             }
         });
+
     }
 
     public void alarmStart() {
         Intent alarmIntent = new Intent(HomeActivity.this, AlarmReceiver.class);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         pendingIntent = PendingIntent.getBroadcast(HomeActivity.this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         // get alarm time
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, hour);
         cal.set(Calendar.MINUTE, minute);
 
         // set alarm
-        alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
     }
 
     // get activity result to add a new alarm
@@ -117,7 +117,7 @@ public class HomeActivity extends AppCompatActivity {
                 minute = data.getIntExtra("minute", -1);
                 alarms.add(val);
                 adapter.notifyDataSetChanged();
-                Toast.makeText(this, "Alarm set for " + val, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Hour is : " + hour + " and minute is: " + minute, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -144,34 +144,5 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void start() {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 8000;
-
-        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
-        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
-    }
-
-    public void cancel() {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.cancel(pendingIntent);
-        Toast.makeText(this, "Alarm Canceled", Toast.LENGTH_SHORT).show();
-    }
-
-    public void startAt10() {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 1000 * 60 * 20;
-
-        /* Set the alarm to start at 10:30 AM */
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 13);
-        calendar.set(Calendar.MINUTE, 9);
-
-        /* Repeating on every 20 minutes interval */
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                1000 * 60 * 20, pendingIntent);
     }
 }
