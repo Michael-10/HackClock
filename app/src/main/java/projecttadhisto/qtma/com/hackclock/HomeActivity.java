@@ -48,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         Intent extras = getIntent();
-        if (extras != null) {
+        if (extras.hasExtra("setAlarm")) {
             String val = extras.getStringExtra("setAlarm");
             Toast.makeText(this, val, Toast.LENGTH_SHORT).show();
             alarms.add(val);
