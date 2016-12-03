@@ -117,7 +117,14 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
                 cal.set(Calendar.MINUTE, minute);
 
                 // set alarm
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+                int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+                if (currentapiVersion < android.os.Build.VERSION_CODES.KITKAT){
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+                } else if (currentapiVersion < android.os.Build.VERSION_CODES.M) {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+                } else {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+                }
             }
         });
 
