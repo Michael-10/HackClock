@@ -13,4 +13,21 @@
     tools:context="projecttadhisto.qtma.com.hackclock.AddAlarmActivity"
     tools:showIn="@layout/activity_add_alarm">
 
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/timePicker" />
+
+    <Button
+        android:text="SetAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button3"
+        android:layout_marginTop="37dp"
+        android:layout_below="@+id/timePicker"
+        android:layout_centerHorizontal="true"
+        android:onClick="onSetAlarmClick"/>
+
 </RelativeLayout>
