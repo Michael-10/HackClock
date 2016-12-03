@@ -1,0 +1,6 @@
+public class Question1 {
+  public public static void main(String [] args)
+	{
+		// Print Hello World
+	}
+}
