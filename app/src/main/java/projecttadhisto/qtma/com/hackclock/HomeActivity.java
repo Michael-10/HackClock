@@ -82,8 +82,10 @@ public class HomeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if(resultCode == RESULT_OK){
-                alarms.add(data.getStringExtra("setAlarm"));
+                String val = data.getStringExtra("setAlarm");
+                alarms.add(val);
                 adapter.notifyDataSetChanged();
+                Toast.makeText(this, "Alarm set for " + val, Toast.LENGTH_SHORT).show();
             }
         }
     }
