@@ -25,10 +25,17 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
+
         <activity
             android:name=".AddAlarmActivity"
             android:label="@string/title_activity_add_alarm"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        
+        <provider
+            android:authorities="projecttadhisto.qtma.com.hackclock.alarmsprovider"
+            android:name=".AlarmsProvider"
+            android:exported="false" />
+        
     </application>
 
 </manifest>
