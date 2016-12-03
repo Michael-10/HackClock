@@ -23,7 +23,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
     public static final String[] ALL_COLUMNS =
             { ALARM_ID, ALARM_HOUR, ALARM_MINUTE, ALARM_AM_PM, ALARM_CREATED };
-    
+
     // SQL to create table
     private static final String TABLE_CREATE =
             "CREATE TABLE " + TABLE_ALARMS + " (" +
