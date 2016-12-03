@@ -21,7 +21,7 @@
         android:id="@+id/timePicker" />
 
     <Button
-        android:text="SetAlarm"
+        android:text="@string/setalarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button3"

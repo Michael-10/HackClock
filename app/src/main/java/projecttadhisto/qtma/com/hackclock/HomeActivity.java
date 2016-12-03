@@ -37,6 +37,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent iAddAlarm = new Intent(HomeActivity.this, AddAlarmActivity.class);
+                //start activity to have a result value
                 startActivityForResult(iAddAlarm, 1);
             }
         });
@@ -76,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    // get activity result to add a new alarm
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
