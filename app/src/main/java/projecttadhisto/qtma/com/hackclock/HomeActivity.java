@@ -21,11 +21,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Scanner;
 
 public class HomeActivity extends AppCompatActivity {
 
+    ArrayList<String> questions = new ArrayList<>();
+    ArrayList<String> answer = new ArrayList<>();
     ArrayList<String> alarms;
     AlarmAdapter adapter;
     ListView lvAlarms;
@@ -91,7 +96,7 @@ public class HomeActivity extends AppCompatActivity {
                 alarmStart();
             }
         });
-
+        readQAndA();
     }
 
     public void alarmStart() {
@@ -144,5 +149,16 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void readQAndA() {
+        for (int i = 1; i < 6; i++) {
+            try {
+                questions.add(new Scanner(new File("question" + String.valueOf(i) + ".txt")).useDelimiter("\\Z").next());
+                answer.add(new Scanner(new File("answer" + String.valueOf(i) + ".txt")).useDelimiter("\\Z").next());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
