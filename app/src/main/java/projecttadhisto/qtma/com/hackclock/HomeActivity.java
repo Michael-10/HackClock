@@ -1,15 +1,20 @@
 package projecttadhisto.qtma.com.hackclock;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -32,21 +37,43 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // Create arraylist to store alarms
-        ArrayList<String> alarms = new ArrayList<>();
+        final ArrayList<String> alarms = new ArrayList<>();
         // Need adapter to display alarms
-        AlarmAdapter adapter = new AlarmAdapter(alarms, this);
-        ListView lvAlarms = (ListView) findViewById(R.id.lvAlarm);
+        final AlarmAdapter adapter = new AlarmAdapter(alarms, this);
+        final ListView lvAlarms = (ListView) findViewById(R.id.lvAlarm);
         // links the adapter to the listview on HomeActivity
         lvAlarms.setAdapter(adapter);
 
-        lvAlarms.setOnLongClickListener(new View.OnLongClickListener() {
+        alarms.add("7:20");
+        adapter.notifyDataSetChanged();
+        lvAlarms.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onLongClick(View view) {
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int pos, long id) {
 
-                return false;
+                final AlertDialog.Builder b = new AlertDialog.Builder(HomeActivity.this);
+                b.setIcon(android.R.drawable.ic_dialog_alert);
+                b.setMessage("Delete?");
+                b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        TextView tvAlarm = (TextView) findViewById(R.id.list_item_alarm);
+                        alarms.remove(tvAlarm.getText().toString());
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                });
+                b.show();
+                return true;
             }
         });
+        
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
