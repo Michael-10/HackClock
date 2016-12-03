@@ -147,4 +147,9 @@ public class HomeActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void alarmTest (View v) {
+        Intent intent = new Intent(this, AlarmActivity.class);
+        startActivity(intent);
+    }
 }
