@@ -38,6 +38,7 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
     ArrayList<String> alarms;
     ListView lvAlarms;
     PendingIntent pendingIntent;
+    AlarmManager alarmManager;
     int hour;
     int minute;
 
@@ -107,7 +108,16 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             public void onClick(View view) {
-                alarmStart();
+                Intent alarmIntent = new Intent(HomeActivity.this, AlarmReceiver.class);
+                pendingIntent = PendingIntent.getBroadcast(HomeActivity.this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                // get alarm time
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, hour);
+                cal.set(Calendar.MINUTE, minute);
+
+                // set alarm
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
             }
         });
 
@@ -123,18 +133,18 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
         Log.d("HomeActivity", "Inserted Note: " + alarmUri.getLastPathSegment());
     }
 
-    public void alarmStart() {
-        Intent alarmIntent = new Intent(HomeActivity.this, AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(HomeActivity.this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        // get alarm time
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, hour);
-        cal.set(Calendar.MINUTE, minute);
-
-        // set alarm
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-    }
+//    public void alarmStart() {
+//        Intent alarmIntent = new Intent(HomeActivity.this, AlarmReceiver.class);
+//        pendingIntent = PendingIntent.getBroadcast(HomeActivity.this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//        // get alarm time
+//        Calendar cal = Calendar.getInstance();
+//        cal.set(Calendar.HOUR_OF_DAY, hour);
+//        cal.set(Calendar.MINUTE, minute);
+//
+//        // set alarm
+//        alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+//    }
 
     // get activity result to add a new alarm
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
