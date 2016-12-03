@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,6 +83,14 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        Button bStart = (Button) findViewById(R.id.bStart);
+        bStart.setOnClickListener(new Button.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
     }
 
     public void alarmStart() {
