@@ -42,13 +42,22 @@ public class AddAlarmActivity extends AppCompatActivity {
     } // end onBackPressed method
 
     public void onSetAlarmClick(View v) {
+        // get time value
         TimePicker picker = (TimePicker) findViewById(R.id.timePicker);
         int hour = picker.getHour();
         int min = picker.getMinute();
-        String time = String.valueOf(hour) + ":" + String.valueOf(min);
+        String time;
+        if (min < 10) {
+            time = String.valueOf(hour) + ":0" + String.valueOf(min);
+        } else {
+            time = String.valueOf(hour) + ":" + String.valueOf(min);
+        }
+
+        //create intent to pass alarm value back and finish activity
         Intent setAlarm = new Intent(this, HomeActivity.class);
         setAlarm.putExtra("setAlarm", time);
-        startActivity(setAlarm);
+        setResult(RESULT_OK, setAlarm);
+        finish();
     }
 
 }

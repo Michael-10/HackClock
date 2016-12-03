@@ -37,7 +37,8 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent iAddAlarm = new Intent(HomeActivity.this, AddAlarmActivity.class);
-                startActivity(iAddAlarm);
+                //start activity to have a result value
+                startActivityForResult(iAddAlarm, 1);
             }
         });
 
@@ -48,9 +49,6 @@ public class HomeActivity extends AppCompatActivity {
         lvAlarms = (ListView) findViewById(R.id.lvAlarm);
         // links the adapter to the listview on HomeActivity
         lvAlarms.setAdapter(adapter);
-
-        alarms.add("7:20");
-        adapter.notifyDataSetChanged();
         
         lvAlarms.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -79,15 +77,14 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Intent extras = getIntent();
-        if (extras.hasExtra("setAlarm")) {
-            String val = extras.getStringExtra("setAlarm");
-            Toast.makeText(this, val, Toast.LENGTH_SHORT).show();
-            alarms.add(val);
-            adapter.notifyDataSetChanged();
+    // get activity result to add a new alarm
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                alarms.add(data.getStringExtra("setAlarm"));
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 
