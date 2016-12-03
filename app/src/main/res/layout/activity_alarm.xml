@@ -24,6 +24,7 @@
         android:layout_below="@+id/editText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="46dp"
-        android:id="@+id/stopAlarm" />
+        android:id="@+id/stopAlarm"
+        android:onClick="onTurnOff"/>
 
 </RelativeLayout>

@@ -2,8 +2,10 @@ package projecttadhisto.qtma.com.hackclock;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +16,7 @@ public class AlarmActivity extends AppCompatActivity {
 
     ArrayList<String> questions = new ArrayList<>();
     ArrayList<String> answer = new ArrayList<>();
+    int ran;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +27,7 @@ public class AlarmActivity extends AppCompatActivity {
 
         EditText textView = (EditText) findViewById(R.id.editText);
         Random random = new Random();
-        int ran = random.nextInt(4) + 1;
+        ran = random.nextInt(4) + 1;
         textView.setText(questions.get(ran));
 
     }
@@ -50,4 +53,15 @@ public class AlarmActivity extends AppCompatActivity {
         } // end try-catch
         return text;
     } // end readFile method
+
+    public void onTurnOff(View v) {
+        EditText userInput = (EditText) findViewById(R.id.editText);
+        String userAnswer = userInput.getText().toString();
+        if (userAnswer.equals(answer.get(ran))) {
+            // turn off alarm
+            Toast.makeText(this, "Answer Correct", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Answer Incorrect", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
