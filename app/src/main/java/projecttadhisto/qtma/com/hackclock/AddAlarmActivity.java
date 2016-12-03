@@ -48,7 +48,8 @@ public class AddAlarmActivity extends AppCompatActivity {
         String time = String.valueOf(hour) + ":" + String.valueOf(min);
         Intent setAlarm = new Intent(this, HomeActivity.class);
         setAlarm.putExtra("setAlarm", time);
-        startActivity(setAlarm);
+        setResult(RESULT_OK, setAlarm);
+        finish();
     }
 
 }
