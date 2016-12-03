@@ -15,10 +15,15 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
+
+    ArrayList<String> alarms;
+    AlarmAdapter adapter;
+    ListView lvAlarms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +42,10 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // Create arraylist to store alarms
-        final ArrayList<String> alarms = new ArrayList<>();
+        alarms = new ArrayList<>();
         // Need adapter to display alarms
-        final AlarmAdapter adapter = new AlarmAdapter(alarms, this);
-        final ListView lvAlarms = (ListView) findViewById(R.id.lvAlarm);
+        adapter = new AlarmAdapter(alarms, this);
+        lvAlarms = (ListView) findViewById(R.id.lvAlarm);
         // links the adapter to the listview on HomeActivity
         lvAlarms.setAdapter(adapter);
 
@@ -54,6 +59,7 @@ public class HomeActivity extends AppCompatActivity {
 
         alarms.add("7:20");
         adapter.notifyDataSetChanged();
+        
         lvAlarms.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
