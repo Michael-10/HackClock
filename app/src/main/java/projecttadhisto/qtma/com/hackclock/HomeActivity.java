@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,10 @@ public class HomeActivity extends AppCompatActivity {
         ListView lvAlarms = (ListView) findViewById(R.id.lvAlarm);
         // links the adapter to the listview on HomeActivity
         lvAlarms.setAdapter(adapter);
+
+        Intent extras = getIntent();
+        String value = extras.getStringExtra("setAlarm");
+        Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
     }
 
     @Override
