@@ -38,6 +38,14 @@ public class HomeActivity extends AppCompatActivity {
         ListView lvAlarms = (ListView) findViewById(R.id.lvAlarm);
         // links the adapter to the listview on HomeActivity
         lvAlarms.setAdapter(adapter);
+
+        lvAlarms.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                return false;
+            }
+        });
     }
 
     @Override
