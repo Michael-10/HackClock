@@ -40,9 +40,13 @@ public class HomeActivity extends AppCompatActivity {
         // links the adapter to the listview on HomeActivity
         lvAlarms.setAdapter(adapter);
 
-        Intent extras = getIntent();
-        String value = extras.getStringExtra("setAlarm");
-        Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+        lvAlarms.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                return false;
+            }
+        });
     }
 
     @Override
