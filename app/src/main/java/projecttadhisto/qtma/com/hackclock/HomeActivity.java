@@ -32,8 +32,6 @@ public class HomeActivity extends AppCompatActivity {
     int hour;
     int minute;
 
-    private PendingIntent pendingIntent;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
