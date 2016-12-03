@@ -26,14 +26,17 @@ public class HomeActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent iAddAlarm = new Intent(HomeActivity.this, AddAlarmActivity.class);
+                startActivity(iAddAlarm);
             }
         });
 
+        // Create arraylist to store alarms
         ArrayList<String> alarms = new ArrayList<>();
+        // Need adapter to display alarms
         AlarmAdapter adapter = new AlarmAdapter(alarms, this);
         ListView lvAlarms = (ListView) findViewById(R.id.lvAlarm);
+        // links the adapter to the listview on HomeActivity
         lvAlarms.setAdapter(adapter);
     }
 

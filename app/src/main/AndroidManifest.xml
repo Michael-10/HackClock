@@ -20,7 +20,11 @@
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".AddAlarmActivity"
+            android:label="@string/title_activity_add_alarm"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
