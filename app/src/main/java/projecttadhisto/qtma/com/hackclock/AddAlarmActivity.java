@@ -45,7 +45,7 @@ public class AddAlarmActivity extends AppCompatActivity {
         TimePicker picker = (TimePicker) findViewById(R.id.timePicker);
         int hour = picker.getHour();
         int min = picker.getMinute();
-        String time = String.valueOf(hour) + String.valueOf(min);
+        String time = String.valueOf(hour) + ":" + String.valueOf(min);
         Intent setAlarm = new Intent(this, HomeActivity.class);
         setAlarm.putExtra("setAlarm", time);
         startActivity(setAlarm);
