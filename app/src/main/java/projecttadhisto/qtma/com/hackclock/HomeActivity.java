@@ -49,14 +49,6 @@ public class HomeActivity extends AppCompatActivity {
         // links the adapter to the listview on HomeActivity
         lvAlarms.setAdapter(adapter);
 
-        Intent extras = getIntent();
-        if (extras.hasExtra("setAlarm")) {
-            String val = extras.getStringExtra("setAlarm");
-            Toast.makeText(this, val, Toast.LENGTH_SHORT).show();
-            alarms.add(val);
-            adapter.notifyDataSetChanged();
-        }
-
         alarms.add("7:20");
         adapter.notifyDataSetChanged();
         
@@ -87,7 +79,17 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent extras = getIntent();
+        if (extras.hasExtra("setAlarm")) {
+            String val = extras.getStringExtra("setAlarm");
+            Toast.makeText(this, val, Toast.LENGTH_SHORT).show();
+            alarms.add(val);
+            adapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
