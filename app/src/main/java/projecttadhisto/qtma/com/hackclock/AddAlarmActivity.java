@@ -46,7 +46,12 @@ public class AddAlarmActivity extends AppCompatActivity {
         TimePicker picker = (TimePicker) findViewById(R.id.timePicker);
         int hour = picker.getHour();
         int min = picker.getMinute();
-        String time = String.valueOf(hour) + ":" + String.valueOf(min);
+        String time;
+        if (min < 10) {
+            time = String.valueOf(hour) + ":0" + String.valueOf(min);
+        } else {
+            time = String.valueOf(hour) + ":" + String.valueOf(min);
+        }
 
         //create intent to pass alarm value back and finish activity
         Intent setAlarm = new Intent(this, HomeActivity.class);
