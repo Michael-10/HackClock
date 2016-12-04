@@ -244,7 +244,7 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     public void alarmTest (View v) {
-        Intent intent = new Intent(this, AlarmActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, AlarmActivity1.class);
+//        startActivity(intent);
     }
 }

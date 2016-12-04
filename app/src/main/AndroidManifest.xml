@@ -10,12 +10,15 @@
         android:theme="@style/AppTheme">
         <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-        <receiver android:name=".AlarmReceiver" />
+        <receiver android:name=".AlarmReceiver">
+            <intent-filter>
+                <action android:name="de.vogella.android.mybroadcast" />
+            </intent-filter>
+        </receiver>
 
-        <service android:name=".RingtonePlayerService"
-            android:enabled="true">
-
-        </service>
+        <service
+            android:name=".RingtonePlayerService"
+            android:enabled="true"></service>
 
         <activity
             android:name=".HomeActivity"
@@ -30,19 +33,20 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
-
         <activity
             android:name=".AddAlarmActivity"
             android:label="@string/title_activity_add_alarm"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
-            android:authorities="projecttadhisto.qtma.com.hackclock.alarmsprovider"
             android:name=".AlarmsProvider"
+            android:authorities="projecttadhisto.qtma.com.hackclock.alarmsprovider"
             android:exported="false" />
-
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AlarmActivity"></activity>
+        android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AlarmActivity"
+            android:label="@string/title_activity_alarm"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

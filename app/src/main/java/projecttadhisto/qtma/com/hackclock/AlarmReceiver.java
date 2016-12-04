@@ -24,5 +24,9 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         Intent serviceIntent = new Intent(context, RingtonePlayerService.class);
         context.startService(serviceIntent);
 
+        Intent i = new Intent();
+        i.setClassName("projecttadhisto.qtma.com.hackclock", "projecttadhisto.qtma.com.hackclock.AlarmActivity");
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(i);
     }
 }
