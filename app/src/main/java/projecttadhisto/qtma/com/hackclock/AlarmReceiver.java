@@ -14,9 +14,9 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        Ringtone ringtone = RingtoneManager.getRingtone(context, uri);
-        ringtone.play();
+//        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+//        Ringtone ringtone = RingtoneManager.getRingtone(context, uri);
+//        ringtone.play();
         Log.d("HomeActivity", "Hello");
         // For our recurring task, we'll just display a message
 //        Toast.makeText(context, "I'm running", Toast.LENGTH_SHORT).show();

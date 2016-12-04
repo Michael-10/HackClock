@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -34,6 +36,36 @@ public class AlarmActivity extends AppCompatActivity {
         textView.setText(questions.get(ran));
 
     }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        boolean result;
+        switch( event.getKeyCode() ) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+            case KeyEvent.KEYCODE_HOME:
+                result = false;
+                break;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                result = true;
+                break;
+
+            default:
+                result= super.dispatchKeyEvent(event);
+                break;
+        }
+
+        return result;
+    }
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            // your code
+//            return true;
+//        } else if (keyCode == KeyEvent.KEY)
+//
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     private void readQAndA() {
         for (int i = 1; i < 5; i++) {
@@ -72,4 +104,19 @@ public class AlarmActivity extends AppCompatActivity {
             Toast.makeText(this, "Answer Incorrect", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    // When phone back button is pressed, go to parent activity.
+    public void onBackPressed() {
+
+    } // end onBackPressed method
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        Intent i = new Intent(AlarmActivity.this, AlarmActivity.class);
+        startActivity(i);
+    }
+
 }
