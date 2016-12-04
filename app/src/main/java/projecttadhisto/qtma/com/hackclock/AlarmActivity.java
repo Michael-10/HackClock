@@ -30,13 +30,13 @@ public class AlarmActivity extends AppCompatActivity {
 
         EditText textView = (EditText) findViewById(R.id.editText);
         Random random = new Random();
-        ran = random.nextInt(4) + 1;
+        ran = random.nextInt(3) + 1;
         textView.setText(questions.get(ran));
 
     }
 
     private void readQAndA() {
-        for (int i = 1; i < 6; i++) {
+        for (int i = 1; i < 5; i++) {
             questions.add(readFile("question" + String.valueOf(i) + ".txt"));
             answer.add(readFile("answer" + String.valueOf(i) + ".txt"));
         }
