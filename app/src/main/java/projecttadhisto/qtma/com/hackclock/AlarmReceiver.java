@@ -21,5 +21,8 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 //        Toast.makeText(context, "I'm running", Toast.LENGTH_SHORT).show();
 //        Log.e("Receiver", "Receiver entered");
 
+        Intent serviceIntent = new Intent(context, RingtonePlayerService.class);
+        context.startService(serviceIntent);
+
     }
 }
