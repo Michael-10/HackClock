@@ -1,7 +1,9 @@
 package projecttadhisto.qtma.com.hackclock;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,6 +23,8 @@ public class AlarmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         readQAndA();
 
@@ -58,8 +62,12 @@ public class AlarmActivity extends AppCompatActivity {
         String userAnswer = userInput.getText().toString();
         if (userAnswer.replaceAll("\\s+", "").equalsIgnoreCase(answer.get(ran).replaceAll("\\s+", ""))) {
             // turn off alarm
-            //a.replaceAll("\\s+","").equalsIgnoreCase(b.replaceAll("\\s+",""))
+
             Toast.makeText(this, "Answer Correct", Toast.LENGTH_SHORT).show();
+
+            finish();
+            System.exit(0);
+
         } else {
             Toast.makeText(this, "Answer Incorrect", Toast.LENGTH_SHORT).show();
         }

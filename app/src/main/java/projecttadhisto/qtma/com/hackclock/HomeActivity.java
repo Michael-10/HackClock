@@ -140,19 +140,6 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
         Log.d("HomeActivity", "Inserted Note: " + alarmUri.getLastPathSegment());
     }
 
-//    public void alarmStart() {
-//        Intent alarmIntent = new Intent(HomeActivity.this, AlarmReceiver.class);
-//        pendingIntent = PendingIntent.getBroadcast(HomeActivity.this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//        // get alarm time
-//        Calendar cal = Calendar.getInstance();
-//        cal.set(Calendar.HOUR_OF_DAY, hour);
-//        cal.set(Calendar.MINUTE, minute);
-//
-//        // set alarm
-//        alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-//    }
-
     // get activity result to add a new alarm
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -243,8 +230,4 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
         cursorAdapter.swapCursor(null);
     }
 
-    public void alarmTest (View v) {
-//        Intent intent = new Intent(this, AlarmActivity1.class);
-//        startActivity(intent);
-    }
 }

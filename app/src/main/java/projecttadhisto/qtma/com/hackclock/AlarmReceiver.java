@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 import android.widget.Toast;
@@ -28,5 +29,9 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         i.setClassName("projecttadhisto.qtma.com.hackclock", "projecttadhisto.qtma.com.hackclock.AlarmActivity");
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
+
+        Log.d("HomeActivity", "Cancelled!");
+        System.exit(0);
+        Log.d("HomeActivity", "Did this stop?");
     }
 }
