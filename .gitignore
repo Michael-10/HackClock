@@ -14,8 +14,6 @@
 # Java class files
 *.class
 
-=======
-
 # Created by https://www.gitignore.io/api/androidstudio
 
 ### AndroidStudio ###
@@ -31,7 +29,6 @@
 # Java class files
 *.class
 
->>>>>>> b02b72479e904a7922d980fdca416d4724474de3
 # Generated files
 bin/
 gen/
