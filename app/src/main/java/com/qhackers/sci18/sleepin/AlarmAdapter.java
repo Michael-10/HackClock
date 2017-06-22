@@ -1,4 +1,4 @@
-package projecttadhisto.qtma.com.sleepin;
+package com.qhackers.sci18.sleepin;
 
 
 import android.content.Context;

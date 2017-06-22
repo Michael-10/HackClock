@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="projecttadhisto.qtma.com.sleepin">
+    package="com.qhackers.sci18.sleepin" >
 
     <application
         android:allowBackup="true"
