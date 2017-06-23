@@ -13,14 +13,15 @@
         android:paddingRight="8dp"
         android:paddingStart="8dp"
         android:paddingTop="20dp"
-        android:text="heello"
+        android:text="8:30pm"
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <ToggleButton
-        android:id="@+id/toggleButton"
+    <Switch
+        android:id="@+id/list_item_is_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="On" />
+        android:layout_weight="0.45" />
+
 </LinearLayout>

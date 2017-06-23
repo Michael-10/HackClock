@@ -1,5 +1,6 @@
 package com.qhackers.sci18.sleepin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,9 +13,14 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class AlarmsActivity extends AppCompatActivity {
+/**
+ * Class which displays the user's alarms.
+ * The user can create, edit or delete alarms from here, as well
+ * as toggle the alarms on or off.
+ */
+public class AlarmListActivity extends AppCompatActivity {
 
-    private ArrayList<String> alarms;
+    private ArrayList<Alarm> alarms;
     private AlarmAdapter alarmAdapter;
     private ListView lvAlarms;
 
@@ -26,21 +32,29 @@ public class AlarmsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         alarms = new ArrayList<>();
-        alarmAdapter = new AlarmAdapter(alarms, this);
+        alarmAdapter = new AlarmAdapter(this, R.layout.list_item_alarm, alarms);
         lvAlarms = (ListView) findViewById(R.id.lv_alarms);
         lvAlarms.setAdapter(alarmAdapter);
 
+        // Dummy data, can take out
         for (int i = 0; i < 3; ++i) {
-            alarms.add(i + "");
+            if (i % 2 == 0) {
+                alarms.add(new Alarm("7:30", true));
+            } else {
+                alarms.add(new Alarm("8:30", false));
+            }
         }
-
+        // Call this everytime data in the alarms ArrayList has changed.
         alarmAdapter.notifyDataSetChanged();
 
+        // Brings user to new activity where they can create an alarm.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+// TODO create the AlarmInfoActivity class (or whatever it should be called).
+//                Intent iAlarmInfo = new Intent(AlarmListActivity.this, AlarmInfoActivity.class);
+//                startActivity(iAlarmInfo);
             }
         });
     }
