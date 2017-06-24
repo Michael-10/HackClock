@@ -1,6 +1,8 @@
 package com.qhackers.sci18.sleepin;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +12,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -36,6 +40,15 @@ public class AlarmListActivity extends AppCompatActivity {
         lvAlarms = (ListView) findViewById(R.id.lv_alarms);
         lvAlarms.setAdapter(alarmAdapter);
 
+        Alarm tempAlarm = new Alarm("7:30", true);
+
+        SharedPreferences sprefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = sprefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(tempAlarm);
+        prefsEditor.putString("alarmObject", json);
+        prefsEditor.apply();
+
         // Dummy data, can take out
         for (int i = 0; i < 3; ++i) {
             if (i % 2 == 0) {
@@ -53,8 +66,8 @@ public class AlarmListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 // TODO create the AlarmInfoActivity class (or whatever it should be called).
-//                Intent iAlarmInfo = new Intent(AlarmListActivity.this, AlarmInfoActivity.class);
-//                startActivity(iAlarmInfo);
+                Intent iAlarmInfo = new Intent(AlarmListActivity.this, AlarmInfoActivity.class);
+                startActivity(iAlarmInfo);
             }
         });
     }

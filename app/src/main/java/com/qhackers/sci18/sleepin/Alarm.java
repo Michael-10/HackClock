@@ -1,5 +1,8 @@
 package com.qhackers.sci18.sleepin;
 
+/**
+ * Class to hold information about an alarm.
+ */
 public class Alarm {
 
     private boolean isSet;
