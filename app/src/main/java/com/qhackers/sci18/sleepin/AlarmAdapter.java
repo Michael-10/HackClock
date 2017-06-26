@@ -70,9 +70,9 @@ public class AlarmAdapter extends ArrayAdapter {
             holder = (ViewHolder) row.getTag();
         }
         Alarm alarm = alarms.get(position);
-        holder.tvAlarmTime.setText(alarm.getAlarmTime());
+        String alarmTime = alarm.getHour() + ":" + alarm.getMinute();
+        holder.tvAlarmTime.setText(alarmTime);
         holder.sIsSet.setChecked(alarm.isSet());
-
         holder.tvAlarmTime.setTag(position);
         holder.sIsSet.setTag(position);
 
