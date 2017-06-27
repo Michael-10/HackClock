@@ -1,17 +1,29 @@
 package com.qhackers.sci18.sleepin;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Class which displays the user's alarms.
@@ -20,7 +32,7 @@ import java.util.ArrayList;
  */
 public class AlarmListActivity extends AppCompatActivity {
 
-    private ArrayList<Alarm> alarms;
+    private ArrayList<Alarm> alarmList;
     private AlarmAdapter alarmAdapter;
     private ListView lvAlarms;
 
@@ -31,30 +43,48 @@ public class AlarmListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        alarms = new ArrayList<>();
-        alarmAdapter = new AlarmAdapter(this, R.layout.list_item_alarm, alarms);
+        alarmList = new ArrayList<>();
+        alarmAdapter = new AlarmAdapter(this, R.layout.list_item_alarm, alarmList);
         lvAlarms = (ListView) findViewById(R.id.lv_alarms);
         lvAlarms.setAdapter(alarmAdapter);
 
-        // Dummy data, can take out
-        for (int i = 0; i < 3; ++i) {
-            if (i % 2 == 0) {
-                alarms.add(new Alarm("7:30", true));
-            } else {
-                alarms.add(new Alarm("8:30", false));
+        // SharedPreferences initialization
+        SharedPreferences sPrefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = sPrefs.edit();
+        Gson gson = new Gson();
+
+        // Test alarms TODO take these out
+        Alarm alarm1 = new Alarm(5, 30, true, true, "alarm!!");
+        Alarm alarm2 = new Alarm(7, 30, false, true, "alarm2!!");
+        String json1 = gson.toJson(alarm1);
+        String json2 = gson.toJson(alarm2);
+        Set<String> alarmSet = new HashSet<>();
+        alarmSet.add(json1);
+        alarmSet.add(json2);
+
+        // Writing to SharedPreferences (USING STRINGSET)
+        prefsEditor.putStringSet("alarms", alarmSet);
+        prefsEditor.apply();
+
+        // Reading from SharedPreferences (USING STRINGSET)
+        Set<String> jsonReceived = sPrefs.getStringSet("alarms", new HashSet<String>());
+        if (!jsonReceived.isEmpty()) {
+            Iterator<String> iterator = jsonReceived.iterator();
+            while (iterator.hasNext()) {
+                String alarmString = iterator.next();
+                Alarm tempAlarm = gson.fromJson(alarmString, Alarm.class);
+                alarmList.add(tempAlarm);
             }
+            alarmAdapter.notifyDataSetChanged();
         }
-        // Call this everytime data in the alarms ArrayList has changed.
-        alarmAdapter.notifyDataSetChanged();
 
         // Brings user to new activity where they can create an alarm.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-// TODO create the AlarmInfoActivity class (or whatever it should be called).
-//                Intent iAlarmInfo = new Intent(AlarmListActivity.this, AlarmInfoActivity.class);
-//                startActivity(iAlarmInfo);
+                Intent iAlarmInfo = new Intent(AlarmListActivity.this, AlarmInfoActivity.class);
+                startActivity(iAlarmInfo);
             }
         });
     }
