@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -35,6 +36,7 @@ public class AlarmListActivity extends AppCompatActivity {
     private ArrayList<Alarm> alarmList;
     private AlarmAdapter alarmAdapter;
     private ListView lvAlarms;
+    private int alarmKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,32 +53,60 @@ public class AlarmListActivity extends AppCompatActivity {
         // SharedPreferences initialization
         SharedPreferences sPrefs = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = sPrefs.edit();
+
+        // Clear SharedPreferences
+        prefsEditor.clear();
+
         Gson gson = new Gson();
 
         // Test alarms TODO take these out
         Alarm alarm1 = new Alarm(5, 30, true, true, "alarm!!");
         Alarm alarm2 = new Alarm(7, 30, false, true, "alarm2!!");
+        Alarm alarm3 = new Alarm(8, 40, true, true, "alarm3!!");
         String json1 = gson.toJson(alarm1);
         String json2 = gson.toJson(alarm2);
-        Set<String> alarmSet = new HashSet<>();
-        alarmSet.add(json1);
-        alarmSet.add(json2);
+        String json3 = gson.toJson(alarm3);
+//        Set<String> alarmSet = new HashSet<>();
+//        alarmSet.add(json1);
+//        alarmSet.add(json2);
 
         // Writing to SharedPreferences (USING STRINGSET)
-        prefsEditor.putStringSet("alarms", alarmSet);
+//        prefsEditor.putStringSet("alarms", alarmSet);
+//        prefsEditor.apply();
+
+        // Writing to SharedPreferences (NOT USING STRINGSET)
+        prefsEditor.putString("alarm1", json1);
+        prefsEditor.putString("alarm2", json2);
+        prefsEditor.putString("alarm3", json3);
         prefsEditor.apply();
 
         // Reading from SharedPreferences (USING STRINGSET)
-        Set<String> jsonReceived = sPrefs.getStringSet("alarms", new HashSet<String>());
-        if (!jsonReceived.isEmpty()) {
-            Iterator<String> iterator = jsonReceived.iterator();
-            while (iterator.hasNext()) {
-                String alarmString = iterator.next();
+//        Set<String> jsonReceived = sPrefs.getStringSet("alarms", new HashSet<String>());
+//        if (!jsonReceived.isEmpty()) {
+//            Iterator<String> iterator = jsonReceived.iterator();
+//            while (iterator.hasNext()) {
+//                String alarmString = iterator.next();
+//                Alarm tempAlarm = gson.fromJson(alarmString, Alarm.class);
+//                alarmList.add(tempAlarm);
+//            }
+//            alarmAdapter.notifyDataSetChanged();
+//        }
+
+        // Reading from SharedPreferences (NOT USING STRINGSET)
+        Map<String, ?> alarmData = sPrefs.getAll();
+        if (!alarmData.isEmpty()) {
+            Log.d("sharedPrefs", alarmData.toString());
+            for (Map.Entry<String, ?> entry : alarmData.entrySet()) {
+                String alarmString = entry.getValue().toString();
                 Alarm tempAlarm = gson.fromJson(alarmString, Alarm.class);
                 alarmList.add(tempAlarm);
             }
             alarmAdapter.notifyDataSetChanged();
         }
+
+//        String jsonReceived = sPrefs.getString("alarm1", "");
+//        Alarm alarmReceived = gson.fromJson(jsonReceived, Alarm.class);
+//        Log.d("sharedPrefsTest", jsonReceived);
 
         // Brings user to new activity where they can create an alarm.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
