@@ -49,7 +49,7 @@ public class AlarmListActivity extends AppCompatActivity {
         lvAlarms.setAdapter(alarmAdapter);
 
         // SharedPreferences initialization
-        SharedPreferences sPrefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences sPrefs = getSharedPreferences("Sleepin", Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = sPrefs.edit();
         Gson gson = new Gson();
 

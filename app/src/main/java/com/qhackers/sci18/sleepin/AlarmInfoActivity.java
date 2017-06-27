@@ -1,6 +1,7 @@
 package com.qhackers.sci18.sleepin;
 
 import android.annotation.TargetApi;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,8 +12,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextClock;
 import android.widget.TimePicker;
+import com.google.gson.Gson;
+
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class AlarmInfoActivity extends AppCompatActivity {
 
@@ -28,7 +33,6 @@ public class AlarmInfoActivity extends AppCompatActivity {
 
     /**
      * Writes the alarm info to the database.
-     *
      * @param v - The view that the event was triggered from (OK button)
      */
     @TargetApi(23)
@@ -40,7 +44,7 @@ public class AlarmInfoActivity extends AppCompatActivity {
         int minute;
         // get hour from time picker
         if (currentApiVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            hour = tp.getHour();
+            hour = tp.getHour(); // for api 23+
         } else {
             hour = tp.getCurrentHour().intValue();
         }
@@ -62,9 +66,27 @@ public class AlarmInfoActivity extends AppCompatActivity {
         Log.i("TEST", "Hour is: " + hour + " minute is: " + minute + " isVibrate is: " + isVibrate + " alarm name is: " + alarmName);
 
         // write to alarm info database
-        Alarm a = new Alarm("placeholder", true);
+        String alarmID = "placeholder"; // TODO: get id from intent info
+        Gson g = new Gson();
+        String s = g.toJson(new Alarm(hour, minute, true, isVibrate, alarmName));
+        SharedPreferences sPrefs = getSharedPreferences("Sleepin", MODE_PRIVATE);
+        SharedPreferences.Editor pe = sPrefs.edit();
+        pe.putString(alarmID, s);
+        pe.apply();
 
+        Set<String> test1 = sPrefs.getStringSet("alarms", new HashSet<String>());
+        for (String string : test1) {
+            Log.i("DB", s);
+        }
 
+    }
+
+    /**
+     * Cancels changes made to alarm and returns back to AlarmListActivity
+     * @param v
+     */
+    public void cancelEditCreate(View v) {
+        finish();
     }
 
 }
