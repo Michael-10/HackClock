@@ -48,6 +48,7 @@ public class AlarmListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent iAlarmInfo = new Intent(AlarmListActivity.this, AlarmInfoActivity.class);
+                iAlarmInfo.putExtra("action", "create");
                 startActivity(iAlarmInfo);
             }
         });
@@ -71,7 +72,7 @@ public class AlarmListActivity extends AppCompatActivity {
         lvAlarms.setAdapter(alarmAdapter);
 
         // SharedPreferences initialization
-        sPrefs = getPreferences(MODE_PRIVATE);
+        sPrefs = getSharedPreferences("Sleepin", MODE_PRIVATE);
         prefsEditor = sPrefs.edit();
         gson = new Gson();
     }
@@ -103,12 +104,14 @@ public class AlarmListActivity extends AppCompatActivity {
     private void readSharedPreferences() {
         alarmList.clear();
         Map<String, ?> alarmData = sPrefs.getAll();
-//        Log.d("sharedPrefs", alarmData.toString());
+        Log.d("DB", "here: \n" + alarmData.toString());
         if (!alarmData.isEmpty()) {
             for (Map.Entry<String, ?> entry : alarmData.entrySet()) {
-                String alarmString = entry.getValue().toString();
-                Alarm tempAlarm = gson.fromJson(alarmString, Alarm.class);
-                alarmList.add(tempAlarm);
+                if (!entry.getKey().equals("maxID")) {
+                    String alarmString = entry.getValue().toString();
+                    Alarm tempAlarm = gson.fromJson(alarmString, Alarm.class);
+                    alarmList.add(tempAlarm);
+                }
             }
             alarmAdapter.notifyDataSetChanged();
         }
