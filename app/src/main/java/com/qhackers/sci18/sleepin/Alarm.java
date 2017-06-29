@@ -10,13 +10,15 @@ public class Alarm {
     private boolean isSet;      // Toggle the alarm on or off
     private boolean vibrate;    // Vibrate phone when the alarm goes off
     private String alarmName;   // Name of the alarm (optional)
+    private String id;     // Key of the alarm to be stored in SharedPreferences
 
-    public Alarm(int hour, int minute, boolean isSet, boolean vibrate, String alarmName) {
+    public Alarm(int hour, int minute, boolean isSet, boolean vibrate, String alarmName, String id) {
         this.hour = hour;
         this.minute = minute;
         this.isSet = isSet;
         this.vibrate = vibrate;
         this.alarmName = alarmName;
+        this.id = id;
     }
 
 
@@ -58,5 +60,13 @@ public class Alarm {
 
     public void setAlarmName(String alarmName) {
         this.alarmName = alarmName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

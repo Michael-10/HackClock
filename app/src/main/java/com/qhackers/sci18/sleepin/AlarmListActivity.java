@@ -135,9 +135,9 @@ public class AlarmListActivity extends AppCompatActivity {
     private void testData() {
 
         // Test alarms TODO take these out
-        Alarm alarm1 = new Alarm(5, 30, true, true, "alarm!!");
-        Alarm alarm2 = new Alarm(7, 30, false, true, "alarm2!!");
-        Alarm alarm3 = new Alarm(8, 40, true, true, "alarm3!!");
+        Alarm alarm1 = new Alarm(5, 30, true, true, "alarm!!", "alarm1");
+        Alarm alarm2 = new Alarm(7, 30, false, true, "alarm2!!", "alarm2");
+        Alarm alarm3 = new Alarm(8, 40, true, true, "alarm3!!", "alarm3");
         String json1 = gson.toJson(alarm1);
         String json2 = gson.toJson(alarm2);
         String json3 = gson.toJson(alarm3);
