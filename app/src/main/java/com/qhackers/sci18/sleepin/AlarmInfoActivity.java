@@ -93,13 +93,19 @@ public class AlarmInfoActivity extends AppCompatActivity {
 
     private String getAlarmID() {
         String action = getIntentExtra("action");
-        String id = "";
-        if (action == "edit") {
+        String id;
+
+        if (action.equals("edit")) {
             id = getIntentExtra("alarmID");
         } else {
             SharedPreferences s = getSharedPreferences("Sleepin", MODE_PRIVATE);
-            String prefix = s.getString("maxID", "");
-            id = "alarm" + prefix;
+            int suffix = s.getInt("maxID", 0);
+            if (suffix == 0) {
+                id = "alarm" + suffix;
+            } else {
+                suffix += 1;
+                id = "alarm" + suffix;
+            }
         }
         return id;
     }
