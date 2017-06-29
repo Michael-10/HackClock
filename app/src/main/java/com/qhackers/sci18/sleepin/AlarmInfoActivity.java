@@ -119,11 +119,10 @@ public class AlarmInfoActivity extends AppCompatActivity {
         SharedPreferences.Editor e = s.edit();
         if (i == 0) {
             e.putInt("maxID", 1);
-            e.commit();
         } else {
-            e.putInt("maxID", i++);
-            e.commit();
+            e.putInt("maxID", ++i);
         }
+        e.commit();
         return i;
     }
 
