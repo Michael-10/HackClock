@@ -6,24 +6,56 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import com.google.gson.Gson;
 import java.util.Map;
 
 public class AlarmInfoActivity extends AppCompatActivity {
 
+    private Alarm alarmForEdit;
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_info);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        getAction();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void getAction() {
+        String action = getIntentExtra("action");
+        String id;
+        if (action.equals("edit")) {
+            Intent intent = getIntent();
+            alarmForEdit = intent.getParcelableExtra("alarmId");
+            id = alarmForEdit.getId();
+
+            TimePicker tp = (TimePicker) findViewById(R.id.timePicker);
+            int alarmHour = alarmForEdit.getHour();
+            tp.setHour(alarmHour);
+            int alarmMin = alarmForEdit.getMinute();
+            tp.setMinute(alarmMin);
+
+            CheckBox cbVibrate = (CheckBox) findViewById(R.id.cbVibrate);
+            boolean vibrate = alarmForEdit.isVibrate();
+            cbVibrate.setChecked(vibrate);
+
+            EditText etAlarmName = (EditText) findViewById(R.id.etAlarmName);
+            String alarmName = alarmForEdit.getAlarmName();
+            etAlarmName.setText(alarmName, TextView.BufferType.EDITABLE);
+        }
     }
 
     /**
@@ -68,13 +100,13 @@ public class AlarmInfoActivity extends AppCompatActivity {
     }
 
     private boolean isVibrate() {
-        final CheckBox cb = (CheckBox) findViewById(R.id.vibrateOnOff);
+        final CheckBox cb = (CheckBox) findViewById(R.id.cbVibrate);
         return cb.isChecked();
     }
 
     @NonNull
     private String getAlarmName() {
-        final EditText et = (EditText) findViewById(R.id.alarmName);
+        final EditText et = (EditText) findViewById(R.id.etAlarmName);
         return et.getText().toString();
     }
 
@@ -95,7 +127,7 @@ public class AlarmInfoActivity extends AppCompatActivity {
         String action = getIntentExtra("action");
         String id;
         if (action.equals("edit")) {
-            id = getIntentExtra("alarmID");
+            id = alarmForEdit.getId();
         } else {
             int suffix = getMaxID();
             id = "alarm" + suffix;

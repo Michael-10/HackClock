@@ -70,7 +70,17 @@ public class AlarmAdapter extends ArrayAdapter {
             holder = (ViewHolder) row.getTag();
         }
         Alarm alarm = alarms.get(position);
-        String alarmTime = alarm.getHour() + ":" + alarm.getMinute();
+        int alarmMin = alarm.getMinute();
+
+        // Need to insert a 0 if the minute is less than 10.
+        String minute;
+        if (alarmMin < 10) {
+            minute = "0" + alarmMin;
+        } else {
+            minute = alarmMin + "";
+        }
+
+        String alarmTime = alarm.getHour() + ":" + minute;
         holder.tvAlarmTime.setText(alarmTime);
         holder.sIsSet.setChecked(alarm.getIsSet());
         holder.tvAlarmTime.setTag(position);
@@ -79,7 +89,7 @@ public class AlarmAdapter extends ArrayAdapter {
         holder.sIsSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO finish this
+                // TODO edit SharedPreferences data when button is clicked
                 int pos = (Integer) view.getTag();
             }
         });
