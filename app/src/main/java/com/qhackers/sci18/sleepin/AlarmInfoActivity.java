@@ -37,7 +37,8 @@ public class AlarmInfoActivity extends AppCompatActivity {
         int minute = getTimePickerMinute(tp, currentApiVersion);
         boolean isVibrate = isVibrate();
         String alarmName = getAlarmName();
-        Alarm a = new Alarm(hour, minute, true, isVibrate, alarmName);
+        String id = getAlarmID();
+        Alarm a = new Alarm(hour, minute, true, isVibrate, alarmName, id);
         writeAlarmToSharedPrefs(a);
 
         // debug purposes
@@ -78,11 +79,10 @@ public class AlarmInfoActivity extends AppCompatActivity {
     }
 
     private void writeAlarmToSharedPrefs(Alarm a) {
-        String alarmID = getAlarmID();
         String s = getAlarmObjectAsJson(a);
         SharedPreferences sPrefs = getSharedPreferences("Sleepin", MODE_PRIVATE);
         SharedPreferences.Editor pe = sPrefs.edit();
-        pe.putString(alarmID, s);
+        pe.putString(a.getId(), s);
         pe.apply();
 
         // debug purposes
