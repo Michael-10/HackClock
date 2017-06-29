@@ -93,7 +93,7 @@ public class AlarmInfoActivity extends AppCompatActivity {
 
     private String getAlarmID() {
         String action = getIntentExtra("action");
-        String id = "";
+        String id;
         if (action.equals("edit")) {
             id = getIntentExtra("alarmID");
         } else {
@@ -115,16 +115,15 @@ public class AlarmInfoActivity extends AppCompatActivity {
 
     private int getMaxID() {
         SharedPreferences s = getSharedPreferences("Sleepin", MODE_PRIVATE);
-        int i = s.getInt("maxID", 0);
+        int maxID = s.getInt("maxID", 0);
         SharedPreferences.Editor e = s.edit();
-        if (i == 0) {
+        if (maxID == 0) {
             e.putInt("maxID", 1);
-            e.commit();
         } else {
-            e.putInt("maxID", i++);
-            e.commit();
+            e.putInt("maxID", ++maxID);
         }
-        return i;
+        e.commit();
+        return maxID;
     }
 
     /**
