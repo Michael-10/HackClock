@@ -78,7 +78,7 @@ public class AlarmInfoActivity extends AppCompatActivity {
     }
 
     private void writeAlarmToSharedPrefs(Alarm a) {
-        String alarmID = getIntentExtra("alarmID");
+        String alarmID = getAlarmID();
         String s = getAlarmObjectAsJson(a);
         SharedPreferences sPrefs = getSharedPreferences("Sleepin", MODE_PRIVATE);
         SharedPreferences.Editor pe = sPrefs.edit();
@@ -89,6 +89,19 @@ public class AlarmInfoActivity extends AppCompatActivity {
         for (Map.Entry<String, ?> e : sPrefs.getAll().entrySet()) {
             Log.i("DB", e.getKey() + " : " + e.getValue());
         }
+    }
+
+    private String getAlarmID() {
+        String action = getIntentExtra("action");
+        String id = "";
+        if (action == "edit") {
+            id = getIntentExtra("alarmID");
+        } else {
+            SharedPreferences s = getSharedPreferences("Sleepin", MODE_PRIVATE);
+            String prefix = s.getString("maxID", "");
+            id = "alarm" + prefix;
+        }
+        return id;
     }
 
     private String getIntentExtra(String key) {
