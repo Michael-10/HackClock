@@ -20,11 +20,11 @@ public class Alarm {
     }
 
 
-    public boolean isSet() {
+    public boolean getIsSet() {
         return isSet;
     }
 
-    public void setSet(boolean set) {
+    public void setIsSet(boolean set) {
         isSet = set;
     }
 
