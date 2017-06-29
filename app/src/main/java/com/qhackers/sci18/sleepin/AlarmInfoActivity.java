@@ -39,7 +39,6 @@ public class AlarmInfoActivity extends AppCompatActivity {
         String alarmName = getAlarmName();
         Alarm a = new Alarm(hour, minute, true, isVibrate, alarmName);
         writeAlarmToSharedPrefs(a);
-
         // debug purposes
         Log.i("TEST", "Hour is: " + hour + " minute is: " + minute + " isVibrate is: " + isVibrate + " alarm name is: " + alarmName);
     }
