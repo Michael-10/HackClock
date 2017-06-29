@@ -94,14 +94,18 @@ public class AlarmInfoActivity extends AppCompatActivity {
     private String getAlarmID() {
         String action = getIntentExtra("action");
         String id = "";
-        if (action == "edit") {
+        if (action.equals("edit")) {
             id = getIntentExtra("alarmID");
         } else {
-            SharedPreferences s = getSharedPreferences("Sleepin", MODE_PRIVATE);
-            String prefix = s.getString("maxID", "");
-            id = "alarm" + prefix;
+            int suffix = getMaxID();
+            id = "alarm" + suffix;
         }
         return id;
+    }
+
+    private String getAlarmObjectAsJson(Alarm a) {
+        Gson g = new Gson();
+        return g.toJson(a);
     }
 
     private String getIntentExtra(String key) {
@@ -109,9 +113,18 @@ public class AlarmInfoActivity extends AppCompatActivity {
         return intent.getStringExtra(key);
     }
 
-    private String getAlarmObjectAsJson(Alarm a) {
-        Gson g = new Gson();
-        return g.toJson(a);
+    private int getMaxID() {
+        SharedPreferences s = getSharedPreferences("Sleepin", MODE_PRIVATE);
+        int i = s.getInt("maxID", 0);
+        SharedPreferences.Editor e = s.edit();
+        if (i == 0) {
+            e.putInt("maxID", 1);
+            e.commit();
+        } else {
+            e.putInt("maxID", i++);
+            e.commit();
+        }
+        return i;
     }
 
     /**
