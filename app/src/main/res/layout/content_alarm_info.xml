@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/vibrateOnOff"
+        app:layout_constraintBottom_toTopOf="@+id/cbVibrate"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timePicker">
@@ -31,18 +31,18 @@
     </LinearLayout>
 
     <CheckBox
-        android:id="@+id/vibrateOnOff"
+        android:id="@+id/cbVibrate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layoutDirection="rtl"
-        android:text="Vibrate"
-        app:layout_constraintBottom_toTopOf="@+id/alarmName"
+        android:text="@string/vibrate"
+        app:layout_constraintBottom_toTopOf="@+id/etAlarmName"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/repeatDays" />
 
     <EditText
-        android:id="@+id/alarmName"
+        android:id="@+id/etAlarmName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Alarm name"
@@ -50,7 +50,7 @@
         app:layout_constraintBottom_toTopOf="@+id/cancelOk"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vibrateOnOff" />
+        app:layout_constraintTop_toBottomOf="@+id/cbVibrate" />
 
     <LinearLayout
         android:id="@+id/cancelOk"
@@ -60,7 +60,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/alarmName"
+        app:layout_constraintTop_toBottomOf="@id/etAlarmName"
         tools:layout_editor_absoluteY="8dp">
 
         <Button

@@ -1,9 +1,12 @@
 package com.qhackers.sci18.sleepin;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Class to hold information about an alarm.
  */
-public class Alarm {
+public class Alarm implements Parcelable {
 
     private int hour;
     private int minute;
@@ -21,6 +24,27 @@ public class Alarm {
         this.id = id;
     }
 
+
+    protected Alarm(Parcel in) {
+        hour = in.readInt();
+        minute = in.readInt();
+        isSet = in.readByte() != 0;
+        vibrate = in.readByte() != 0;
+        alarmName = in.readString();
+        id = in.readString();
+    }
+
+    public static final Creator<Alarm> CREATOR = new Creator<Alarm>() {
+        @Override
+        public Alarm createFromParcel(Parcel in) {
+            return new Alarm(in);
+        }
+
+        @Override
+        public Alarm[] newArray(int size) {
+            return new Alarm[size];
+        }
+    };
 
     public boolean getIsSet() {
         return isSet;
@@ -68,5 +92,20 @@ public class Alarm {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(hour);
+        parcel.writeInt(minute);
+        parcel.writeByte((byte) (isSet ? 1 : 0));
+        parcel.writeByte((byte) (vibrate ? 1 : 0));
+        parcel.writeString(alarmName);
+        parcel.writeString(id);
     }
 }

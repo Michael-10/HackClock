@@ -3,4 +3,5 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_alarm_list">AlarmListActivity</string>
     <string name="title_activity_alarm_info">AlarmInfoActivity</string>
+    <string name="vibrate">Vibrate</string>
 </resources>
