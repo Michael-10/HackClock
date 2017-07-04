@@ -29,7 +29,6 @@ public class AlarmInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_alarm_info);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getAction();
     }
 
@@ -48,11 +47,11 @@ public class AlarmInfoActivity extends AppCompatActivity {
             int alarmMin = alarmForEdit.getMinute();
             tp.setMinute(alarmMin);
 
-            CheckBox cbVibrate = (CheckBox) findViewById(R.id.cbVibrate);
+            CheckBox cbVibrate = (CheckBox) findViewById(R.id.isVibrate);
             boolean vibrate = alarmForEdit.isVibrate();
             cbVibrate.setChecked(vibrate);
 
-            EditText etAlarmName = (EditText) findViewById(R.id.etAlarmName);
+            EditText etAlarmName = (EditText) findViewById(R.id.alarmName);
             String alarmName = alarmForEdit.getAlarmName();
             etAlarmName.setText(alarmName, TextView.BufferType.EDITABLE);
         }
@@ -62,7 +61,7 @@ public class AlarmInfoActivity extends AppCompatActivity {
      * Writes the alarm info to the database.
      * @param v - The view that the event was triggered from (OK button)
      */
-    public void saveAlarm(View v) {
+    public void saveAlarmChanges(View v) {
         final TimePicker tp = (TimePicker) findViewById(R.id.timePicker);
         int currentApiVersion = Build.VERSION.SDK_INT;
         int hour = getTimePickerHour(tp, currentApiVersion);
@@ -100,13 +99,13 @@ public class AlarmInfoActivity extends AppCompatActivity {
     }
 
     private boolean isVibrate() {
-        final CheckBox cb = (CheckBox) findViewById(R.id.cbVibrate);
+        final CheckBox cb = (CheckBox) findViewById(R.id.isVibrate);
         return cb.isChecked();
     }
 
     @NonNull
     private String getAlarmName() {
-        final EditText et = (EditText) findViewById(R.id.etAlarmName);
+        final EditText et = (EditText) findViewById(R.id.alarmName);
         return et.getText().toString();
     }
 
@@ -149,6 +148,7 @@ public class AlarmInfoActivity extends AppCompatActivity {
         SharedPreferences s = getSharedPreferences("Sleepin", MODE_PRIVATE);
         int maxID = s.getInt("maxID", 0);
         SharedPreferences.Editor e = s.edit();
+        // if maxID does not exist, create it
         if (maxID == 0) {
             e.putInt("maxID", 1);
         } else {
@@ -162,7 +162,7 @@ public class AlarmInfoActivity extends AppCompatActivity {
      * Cancels changes made to alarm and returns back to AlarmListActivity
      * @param v The view that the event was triggered from (Cancel button)
      */
-    public void cancelEditCreate(View v) {
+    public void cancelAlarmChanges(View v) {
         finish();
     }
 
