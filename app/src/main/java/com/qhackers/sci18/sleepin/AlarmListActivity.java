@@ -1,11 +1,13 @@
 package com.qhackers.sci18.sleepin;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,6 +20,8 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 
 /**
@@ -41,7 +45,8 @@ public class AlarmListActivity extends AppCompatActivity {
 
         initializeComponents();
         alarmListClick();
-        readSharedPreferences();
+        alarmListLongClick();
+//        readSharedPreferences();
         initializeFAB();
     }
 
@@ -58,6 +63,38 @@ public class AlarmListActivity extends AppCompatActivity {
                 iAlarmInfo.putExtra("action", "edit");
                 iAlarmInfo.putExtra("alarmId", alarmClicked);
                 startActivity(iAlarmInfo);
+            }
+        });
+    }
+
+    /**
+     * When an alarm is long clicked, the alarm is deleted.
+     */
+    private void alarmListLongClick() {
+        lvAlarms.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int pos, long id) {
+                final AlertDialog.Builder b = new AlertDialog.Builder(AlarmListActivity.this);
+                b.setIcon(android.R.drawable.ic_dialog_alert);
+                b.setMessage("Delete?");
+
+                b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Alarm alarmForDelete = (Alarm) lvAlarms.getItemAtPosition(pos);
+                        String alarmId = alarmForDelete.getId();
+                        sPrefs.edit().remove(alarmId).commit();
+                        onResume();
+                    }
+                });
+
+                b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                });
+                b.show();
+
+                return true;
             }
         });
     }
@@ -128,7 +165,7 @@ public class AlarmListActivity extends AppCompatActivity {
     private void readSharedPreferences() {
         alarmList.clear();
         Map<String, ?> alarmData = sPrefs.getAll();
-        Log.d("DB", "here: \n" + alarmData.toString());
+//        Log.d("DB", "here: \n" + alarmData.toString());
         if (!alarmData.isEmpty()) {
             for (Map.Entry<String, ?> entry : alarmData.entrySet()) {
                 if (!entry.getKey().equals("maxID")) {
@@ -137,6 +174,17 @@ public class AlarmListActivity extends AppCompatActivity {
                     alarmList.add(tempAlarm);
                 }
             }
+            Collections.sort(alarmList, new Comparator<Alarm>() {
+                @Override
+                public int compare(Alarm alarm1, Alarm alarm2) {
+                    int hourComp = alarm1.getHour() - alarm2.getHour();
+                    if (hourComp != 0) {
+                        return hourComp;
+                    } else {
+                        return alarm1.getMinute() - alarm2.getMinute();
+                    }
+                }
+            });
             alarmAdapter.notifyDataSetChanged();
         }
     }

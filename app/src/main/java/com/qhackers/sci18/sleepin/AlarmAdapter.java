@@ -3,14 +3,19 @@ package com.qhackers.sci18.sleepin;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
-
+import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.Map;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Adapter class to render data in the ListView on the AlarmActivity (Home) page
@@ -91,9 +96,35 @@ public class AlarmAdapter extends ArrayAdapter {
             public void onClick(View view) {
                 // TODO edit SharedPreferences data when button is clicked
                 int pos = (Integer) view.getTag();
+                Alarm alarmForToggle = alarms.get(pos);
+                boolean isSet = alarmForToggle.getIsSet();
+                if (isSet) {
+                    alarmForToggle.setIsSet(false);
+                } else {
+                    alarmForToggle.setIsSet(true);
+                }
+                writeAlarmToSharedPrefs(alarmForToggle);
             }
         });
 
         return row;
+    }
+
+    private void writeAlarmToSharedPrefs(Alarm a) {
+        String s = getAlarmObjectAsJson(a);
+        SharedPreferences sPrefs = getContext().getSharedPreferences("Sleepin", MODE_PRIVATE);
+        SharedPreferences.Editor pe = sPrefs.edit();
+        pe.putString(a.getId(), s);
+        pe.apply();
+
+//        // debug purposes
+//        for (Map.Entry<String, ?> e : sPrefs.getAll().entrySet()) {
+//            Log.i("DB", e.getKey() + " : " + e.getValue());
+//        }
+    }
+
+    private String getAlarmObjectAsJson(Alarm a) {
+        Gson g = new Gson();
+        return g.toJson(a);
     }
 }
