@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/cbVibrate"
+        app:layout_constraintBottom_toTopOf="@+id/isVibrate"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timePicker">
@@ -31,18 +31,18 @@
     </LinearLayout>
 
     <CheckBox
-        android:id="@+id/cbVibrate"
+        android:id="@+id/isVibrate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layoutDirection="rtl"
         android:text="@string/vibrate"
-        app:layout_constraintBottom_toTopOf="@+id/etAlarmName"
+        app:layout_constraintBottom_toTopOf="@+id/alarmName"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/repeatDays" />
 
     <EditText
-        android:id="@+id/etAlarmName"
+        android:id="@+id/alarmName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Alarm name"
@@ -50,7 +50,7 @@
         app:layout_constraintBottom_toTopOf="@+id/cancelOk"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbVibrate" />
+        app:layout_constraintTop_toBottomOf="@+id/isVibrate" />
 
     <LinearLayout
         android:id="@+id/cancelOk"
@@ -60,7 +60,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etAlarmName"
+        app:layout_constraintTop_toBottomOf="@id/alarmName"
         tools:layout_editor_absoluteY="8dp">
 
         <Button
@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="cancelEditCreate"
+            android:onClick="cancelAlarmChanges"
             android:text="CANCEL" />
 
         <Button
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="saveAlarm"
+            android:onClick="saveAlarmChanges"
             android:text="OK" />
 
     </LinearLayout>
