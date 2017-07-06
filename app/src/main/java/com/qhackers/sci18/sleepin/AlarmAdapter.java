@@ -4,7 +4,6 @@ package com.qhackers.sci18.sleepin;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import com.google.gson.Gson;
 import java.util.ArrayList;
-import java.util.Map;
-
 import static android.content.Context.MODE_PRIVATE;
 
 /**
