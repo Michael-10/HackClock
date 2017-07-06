@@ -8,6 +8,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.TimePicker;
 
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +23,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.Matchers.is;
 
@@ -49,19 +51,25 @@ public class AlarmInfoActivityTest {
         myActivityRule.launchActivity(intent);
 
         // new alarm values
-        int hour = 20;
-        int minute = 30;
+        int hour = 7;
+        int minute = 47;
         boolean isVibrate = true;
-        String name = "Test1";
-        onView(withId(R.id.timePicker)).perform(PickerActions.setTime(20, 30));
+        String name = "CreateAlarmTestCase";
+        onView(withId(R.id.timePicker)).perform(PickerActions.setTime(hour, minute));
         onView(withId(R.id.isVibrate)).perform(click());
         onView(withId(R.id.alarmName)).perform(typeText(name), closeSoftKeyboard());
 
         // check if alarm was saved to SharedPreferences
         onView(withId(R.id.ok)).perform(click());
         String expectedAlarmID = "alarm0";
-        String expectedString = "{\"alarmName\":\"Test1\",\"hour\":20,\"id\":\"alarm0\",\"isSet\":true,\"minute\":30,\"vibrate\":true}";
-        assertThat(myPreferences.getString(expectedAlarmID, null), equalToIgnoringCase(expectedString));
+        String expectedString = "{\"alarmName\":\"" + name + "\",\"hour\":" + hour + ",\"id\":\"" + expectedAlarmID + "\",\"isSet\":true,\"minute\":" + minute + ",\"vibrate\":" + isVibrate + "}";
+        assertThat(myPreferences.getString(expectedAlarmID, null), is(equalTo(expectedString)));
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        myEditor.clear();
+        myEditor.commit();
     }
 
 }
