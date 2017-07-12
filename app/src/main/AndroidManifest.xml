@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.qhackers.sci18.sleepin">
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
 
     <application
         android:allowBackup="true"
@@ -19,11 +20,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".AlarmInfoActivity"
             android:exported="true"
             android:label="@string/title_activity_alarm_info"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver android:name="com.qhackers.sci18.sleepin.MyBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.example.helloandroid.alarms" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
