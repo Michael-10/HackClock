@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,11 +42,6 @@ public class AlarmListActivity extends AppCompatActivity {
     private SharedPreferences.Editor prefsEditor;
     private Gson gson;
 
-    private AlarmManager am;
-    private PendingIntent alarmIntent;
-    private Calendar cal;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +49,6 @@ public class AlarmListActivity extends AppCompatActivity {
         initializeComponents();
         alarmListClick();
         alarmListLongClick();
-//        readSharedPreferences();
         initializeFAB();
 //        stopAlarmManager();
     }
@@ -183,27 +178,17 @@ public class AlarmListActivity extends AppCompatActivity {
     private void readSharedPreferences() {
         alarmList.clear();
         Map<String, ?> alarmData = sPrefs.getAll();
-//        Log.d("DB", "here: \n" + alarmData.toString());
         if (!alarmData.isEmpty()) {
             for (Map.Entry<String, ?> entry : alarmData.entrySet()) {
                 if (!entry.getKey().equals("maxID")) {
                     String alarmString = entry.getValue().toString();
-                    Alarm tempAlarm = gson.fromJson(alarmString, Alarm.class);
-                    alarmList.add(tempAlarm);
+                    Alarm lAlarm = gson.fromJson(alarmString, Alarm.class);
+                    alarmList.add(lAlarm);
 
-//                    cal = Calendar.getInstance();
-//                    cal.setTimeInMillis(System.currentTimeMillis());
-//                    cal.set(Calendar.HOUR_OF_DAY, tempAlarm.getHour());
-//                    cal.set(Calendar.MINUTE, tempAlarm.getMinute());
-
-//                    am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-//                    Intent intent = new Intent(this, MyBroadcastReceiver.class);
-//                    alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-//
-//                    am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 60 * 1000, alarmIntent);
-
+                    setAlarm(lAlarm);
                 }
             }
+            // Sort alarms based on hours, then minutes
             Collections.sort(alarmList, new Comparator<Alarm>() {
                 @Override
                 public int compare(Alarm alarm1, Alarm alarm2) {
@@ -217,6 +202,22 @@ public class AlarmListActivity extends AppCompatActivity {
             });
             alarmAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void setAlarm(Alarm aAlarm) {
+        AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);;
+        Intent intent = new Intent(this, MyBroadcastReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, aAlarm.getHour());
+        calendar.set(Calendar.MINUTE, aAlarm.getMinute());
+
+        Log.d("received", "Hour: " + aAlarm.getHour());
+        Log.d("received", "Minute: " + aAlarm.getMinute());
+
+        am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
     }
 
 }
