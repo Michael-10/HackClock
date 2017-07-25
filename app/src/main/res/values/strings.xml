@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Sleep In</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_alarm_list">AlarmListActivity</string>
     <string name="title_activity_alarm_info">AlarmInfoActivity</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="title_activity_alarm_received">AlarmReceivedActivity</string>
 </resources>
