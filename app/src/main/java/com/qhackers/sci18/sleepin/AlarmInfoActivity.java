@@ -1,12 +1,23 @@
 package com.qhackers.sci18.sleepin;
 
+import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,7 +26,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
 import com.google.gson.Gson;
+
 import java.util.Map;
 
 public class AlarmInfoActivity extends AppCompatActivity {
@@ -59,6 +72,7 @@ public class AlarmInfoActivity extends AppCompatActivity {
 
     /**
      * Writes the alarm info to the database.
+     *
      * @param v - The view that the event was triggered from (OK button)
      */
     public void saveAlarmChanges(View v) {
@@ -71,6 +85,7 @@ public class AlarmInfoActivity extends AppCompatActivity {
         String id = getAlarmID();
         Alarm a = new Alarm(hour, minute, true, isVibrate, alarmName, id);
         writeAlarmToSharedPrefs(a);
+
         // debug purposes
         Log.i("TEST", "Hour is: " + hour + " minute is: " + minute + " isVibrate is: " + isVibrate + " alarm name is: " + alarmName);
         finish();
@@ -160,10 +175,66 @@ public class AlarmInfoActivity extends AppCompatActivity {
 
     /**
      * Cancels changes made to alarm and returns back to AlarmListActivity
+     *
      * @param v The view that the event was triggered from (Cancel button)
      */
     public void cancelAlarmChanges(View v) {
         finish();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void chooseRingtone(View v) {
+
+        String[] perms = {"android.permission.READ_EXTERNAL_STORAGE"};
+        int permsRequestCode = 200;
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, perms, permsRequestCode);
+        }
+//        requestPermissions(perms, permsRequestCode);
+
+        Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Tone");
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, (Uri) null);
+        this.startActivityForResult(intent, 5);
+    }
+
+    @Override
+
+    public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults) {
+
+        switch (permsRequestCode) {
+            case 200:
+                boolean readStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent intent) {
+        if (resultCode == Activity.RESULT_OK && requestCode == 5) {
+            Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+            TextView tv = (TextView) findViewById(R.id.selectRingtone);
+            if (uri != null) {
+                tv.setText(uri.toString());
+                try {
+                    MediaPlayer mMediaPlayer = new MediaPlayer();
+                    mMediaPlayer.setDataSource(this, uri);
+                    final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                    if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
+                        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+                        mMediaPlayer.setLooping(false);
+                        mMediaPlayer.prepare();
+                        mMediaPlayer.start();
+                    }
+                } catch (Exception e) {
+                }
+            } else {
+                tv.setText("Ringtone not selected");
+            }
+        }
     }
 
 }
