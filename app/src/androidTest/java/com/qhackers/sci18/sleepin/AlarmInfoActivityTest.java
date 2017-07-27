@@ -37,7 +37,7 @@ import static org.hamcrest.Matchers.is;
 public class AlarmInfoActivityTest {
 
     @Rule
-    public ActivityTestRule<AlarmInfoActivity> myActivityRule = new ActivityTestRule<>(AlarmInfoActivity.class, true, false);
+    public ActivityTestRule<AlarmInfoActivity> myActivityRule = new ActivityTestRule<>(AlarmInfoActivity.class, true, false);       // third parameter means don't launch the activity
 
     Context myContext = getInstrumentation().getTargetContext();
     SharedPreferences myPreferences = myContext.getSharedPreferences("Sleepin", Context.MODE_PRIVATE);
