@@ -1,7 +1,14 @@
 package com.qhackers.sci18.sleepin;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import java.util.Calendar;
 
 /**
  * Class to hold information about an alarm.
@@ -23,7 +30,6 @@ public class Alarm implements Parcelable {
         this.alarmName = alarmName;
         this.id = id;
     }
-
 
     protected Alarm(Parcel in) {
         hour = in.readInt();
@@ -107,5 +113,38 @@ public class Alarm implements Parcelable {
         parcel.writeByte((byte) (vibrate ? 1 : 0));
         parcel.writeString(alarmName);
         parcel.writeString(id);
+    }
+
+    /**
+     * Schedules a PendingIntent for the alarm.
+     * @param context
+     */
+    public void scheduleAlarm(Context context) {
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, MyBroadcastReceiver.class);
+        intent.putExtra("alarm", this);
+        String id = this.getId().replaceAll("[^0-9]+", "");
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, Integer.parseInt(id), intent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, this.getHour());
+        calendar.set(Calendar.MINUTE, this.getMinute());
+
+        am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
+    }
+
+    /**
+     * Cancels the PendingIntent for the alarm.
+     * @param context
+     */
+    public void cancelAlarm(Context context) {
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, MyBroadcastReceiver.class);
+        intent.putExtra("alarm", this);
+        String id = this.getId().replaceAll("[^0-9]+", "");
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, Integer.parseInt(id), intent, 0);
+        alarmIntent.cancel();
+        am.cancel(alarmIntent);
     }
 }

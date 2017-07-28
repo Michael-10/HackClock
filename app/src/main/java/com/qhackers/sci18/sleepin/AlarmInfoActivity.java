@@ -70,9 +70,9 @@ public class AlarmInfoActivity extends AppCompatActivity {
         String alarmName = getAlarmName();
         String id = getAlarmID();
         Alarm a = new Alarm(hour, minute, true, isVibrate, alarmName, id);
-        writeAlarmToSharedPrefs(a);
+        writeAlarmToSharedPrefs(a); // TODO fails here
         // debug purposes
-        Log.i("TEST", "Hour is: " + hour + " minute is: " + minute + " isVibrate is: " + isVibrate + " alarm name is: " + alarmName);
+        Log.d("savedAlarm", "Hour is: " + hour + " minute is: " + minute + " isVibrate is: " + isVibrate + " alarm name is: " + alarmName);
         finish();
     }
 
@@ -110,16 +110,21 @@ public class AlarmInfoActivity extends AppCompatActivity {
     }
 
     private void writeAlarmToSharedPrefs(Alarm a) {
-        String s = getAlarmObjectAsJson(a);
+        String s = getAlarmObjectAsJson(a); // TODO fails here
+        Log.d("savedAlarm", "Test 1");
         SharedPreferences sPrefs = getSharedPreferences("Sleepin", MODE_PRIVATE);
+        Log.d("savedAlarm", "Test 2");
         SharedPreferences.Editor pe = sPrefs.edit();
+        Log.d("savedAlarm", "Test 3");
         pe.putString(a.getId(), s);
+        Log.d("savedAlarm", "Test 4");
         pe.apply();
+        Log.d("savedAlarm", "Test 5");
 
         // debug purposes
-        for (Map.Entry<String, ?> e : sPrefs.getAll().entrySet()) {
-            Log.i("DB", e.getKey() + " : " + e.getValue());
-        }
+//        for (Map.Entry<String, ?> e : sPrefs.getAll().entrySet()) {
+//            Log.i("DB", e.getKey() + " : " + e.getValue());
+//        }
     }
 
     private String getAlarmID() {
@@ -135,8 +140,10 @@ public class AlarmInfoActivity extends AppCompatActivity {
     }
 
     private String getAlarmObjectAsJson(Alarm a) {
+        Log.d("savedAlarm", "World 1");
         Gson g = new Gson();
-        return g.toJson(a);
+        Log.d("savedAlarm", "World 2");
+        return g.toJson(a); // TODO fails here
     }
 
     private String getIntentExtra(String key) {
