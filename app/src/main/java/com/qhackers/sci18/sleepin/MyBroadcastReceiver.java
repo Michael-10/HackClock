@@ -12,6 +12,8 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         Toast.makeText(context, "Alarm received", Toast.LENGTH_SHORT).show();
         Log.d("received", "Alarm received");
         Intent i = new Intent();
+        Alarm alarm = i.getParcelableExtra("alarm");
+        i.putExtra("alarm", alarm);
         i.setClassName("com.qhackers.sci18.sleepin", "com.qhackers.sci18.sleepin.AlarmReceivedActivity");
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);

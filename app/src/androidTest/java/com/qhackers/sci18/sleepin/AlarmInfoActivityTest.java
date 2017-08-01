@@ -66,10 +66,10 @@ public class AlarmInfoActivityTest {
         assertThat(myPreferences.getString(expectedAlarmID, null), is(equalTo(expectedString)));
     }
 
-    @After
-    public void tearDown() throws Exception {
-        myEditor.clear();
-        myEditor.commit();
-    }
+//    @After
+//    public void tearDown() throws Exception {
+//        myEditor.clear();
+//        myEditor.commit();
+//    }
 
 }

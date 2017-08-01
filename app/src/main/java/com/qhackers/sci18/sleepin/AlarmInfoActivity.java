@@ -26,14 +26,18 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+
+import org.w3c.dom.Text;
 
 import java.util.Map;
 
 public class AlarmInfoActivity extends AppCompatActivity {
 
     private Alarm alarmForEdit;
+    private boolean permissionGranted;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -84,6 +88,9 @@ public class AlarmInfoActivity extends AppCompatActivity {
         String alarmName = getAlarmName();
         String id = getAlarmID();
         Alarm a = new Alarm(hour, minute, true, isVibrate, alarmName, id);
+        final TextView tv = (TextView) findViewById(R.id.selectRingtone);
+        String ringtone = tv.getText().toString();
+        a.setRingtone(ringtone);
         writeAlarmToSharedPrefs(a);
 
         // debug purposes
@@ -192,13 +199,16 @@ public class AlarmInfoActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, perms, permsRequestCode);
         }
-//        requestPermissions(perms, permsRequestCode);
 
-        Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
-        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Tone");
-        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, (Uri) null);
-        this.startActivityForResult(intent, 5);
+        if (permissionGranted) {
+            Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
+            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Tone");
+            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, (Uri) null);
+            this.startActivityForResult(intent, 5);
+        }
+
+
     }
 
     @Override
@@ -206,8 +216,31 @@ public class AlarmInfoActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults) {
 
         switch (permsRequestCode) {
+            case 200: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permissionGranted = true;
+                    Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+                    intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
+                    intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Tone");
+                    intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, (Uri) null);
+                    this.startActivityForResult(intent, 5);
+                } else {
+                    permissionGranted = false;
+                    Toast.makeText(getApplicationContext(), "Did not grant permission", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+
+        switch (permsRequestCode) {
             case 200:
                 boolean readStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
                 break;
         }
     }
@@ -230,6 +263,7 @@ public class AlarmInfoActivity extends AppCompatActivity {
                         mMediaPlayer.start();
                     }
                 } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Failed to play ringtone", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 tv.setText("Ringtone not selected");
