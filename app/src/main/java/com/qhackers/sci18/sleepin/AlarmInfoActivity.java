@@ -94,7 +94,7 @@ public class AlarmInfoActivity extends AppCompatActivity {
         writeAlarmToSharedPrefs(a);
 
         // debug purposes
-        Log.i("TEST", "Hour is: " + hour + " minute is: " + minute + " isVibrate is: " + isVibrate + " alarm name is: " + alarmName);
+        Log.d("savedAlarm", "Hour is: " + hour + " minute is: " + minute + " isVibrate is: " + isVibrate + " alarm name is: " + alarmName);
         finish();
     }
 
