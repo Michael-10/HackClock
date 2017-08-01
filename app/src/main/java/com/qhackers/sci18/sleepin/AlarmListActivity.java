@@ -94,6 +94,7 @@ public class AlarmListActivity extends AppCompatActivity {
                 b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         Alarm alarmForDelete = (Alarm) lvAlarms.getItemAtPosition(pos);
+                        alarmForDelete.cancelAlarm(getApplicationContext());
                         String alarmId = alarmForDelete.getId();
                         sPrefs.edit().remove(alarmId).commit();
                         onResume();

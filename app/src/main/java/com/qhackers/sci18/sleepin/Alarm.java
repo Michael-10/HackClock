@@ -117,21 +117,22 @@ public class Alarm implements Parcelable {
 
     /**
      * Schedules a PendingIntent for the alarm.
-     * @param context
+     * @param aContext Activity context
      */
-    public void scheduleAlarm(Context context) {
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, MyBroadcastReceiver.class);
+    public void scheduleAlarm(Context aContext) {
+        AlarmManager am = (AlarmManager) aContext.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(aContext, MyBroadcastReceiver.class);
         intent.putExtra("alarm", this);
-        String id = this.getId().replaceAll("[^0-9]+", "");
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, Integer.parseInt(id), intent, 0);
+        String id = this.getId().replaceAll("[^0-9]+", "");     // this.getId returns a string such as "alarm1". We only need the "1".
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(aContext, Integer.parseInt(id), intent, 0);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, this.getHour());
         calendar.set(Calendar.MINUTE, this.getMinute());
 
-        am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
+        long calendarTime = calendar.getTimeInMillis();
+        am.setExact(AlarmManager.RTC_WAKEUP, calendarTime, alarmIntent);
     }
 
     /**
