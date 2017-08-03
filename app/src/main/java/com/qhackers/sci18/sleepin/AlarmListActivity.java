@@ -96,6 +96,7 @@ public class AlarmListActivity extends AppCompatActivity {
                         Alarm alarmForDelete = (Alarm) lvAlarms.getItemAtPosition(pos);
                         alarmForDelete.cancelAlarm(getApplicationContext());
                         String alarmId = alarmForDelete.getId();
+                        alarmForDelete.cancelAlarm(getApplicationContext());
                         sPrefs.edit().remove(alarmId).commit();
                         onResume();
                     }
