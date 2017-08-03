@@ -21,7 +21,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class AlarmAdapter extends ArrayAdapter {
 
-    // TODO dismiss alarm when it's going off (different than toggling pending alarms.
+    // TODO dismiss alarm when it's going off (different than toggling pending alarms)
 
     // Class to hold the different views in each list item
     private static class ViewHolder {
@@ -95,7 +95,6 @@ public class AlarmAdapter extends ArrayAdapter {
         holder.sIsSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO edit SharedPreferences data when button is clicked
                 int pos = (Integer) view.getTag();
                 Alarm alarmForToggle = alarms.get(pos);
                 boolean isSet = alarmForToggle.getIsSet();
