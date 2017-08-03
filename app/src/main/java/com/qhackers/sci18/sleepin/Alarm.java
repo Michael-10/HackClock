@@ -21,6 +21,7 @@ public class Alarm implements Parcelable {
     private boolean vibrate;    // Vibrate phone when the alarm goes off
     private String alarmName;   // Name of the alarm (optional)
     private String id;          // Key of the alarm to be stored in SharedPreferences
+    private String ringtone;
 
     public Alarm(int hour, int minute, boolean isSet, boolean vibrate, String alarmName, String id) {
         this.hour = hour;
@@ -113,6 +114,14 @@ public class Alarm implements Parcelable {
         parcel.writeByte((byte) (vibrate ? 1 : 0));
         parcel.writeString(alarmName);
         parcel.writeString(id);
+    }
+
+    public String getRingtone() {
+        return ringtone;
+    }
+
+    public void setRingtone(String ringtoneUri) {
+        this.ringtone = ringtoneUri;
     }
 
     /**
