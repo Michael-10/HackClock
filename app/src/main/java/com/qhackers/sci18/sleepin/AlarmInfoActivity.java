@@ -69,7 +69,7 @@ public class AlarmInfoActivity extends AppCompatActivity {
         String alarmName = getAlarmName();
         String id = getAlarmID();
         Alarm a = new Alarm(hour, minute, true, isVibrate, alarmName, id);
-        writeAlarmToSharedPrefs(a); // TODO fails here
+        writeAlarmToSharedPrefs(a);
 
         // debug purposes
         Log.d("savedAlarm", "Hour is: " + hour + " minute is: " + minute + " isVibrate is: " + isVibrate + " alarm name is: " + alarmName);
@@ -137,7 +137,7 @@ public class AlarmInfoActivity extends AppCompatActivity {
 
     private String getAlarmObjectAsJson(Alarm a) {
         Gson g = new Gson();
-        return g.toJson(a); // TODO fails here
+        return g.toJson(a);
     }
 
     private String getIntentExtra(String key) {
