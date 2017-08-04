@@ -7,7 +7,15 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOError;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.Calendar;
 
 /**
@@ -131,9 +139,22 @@ public class Alarm implements Parcelable {
     public void scheduleAlarm(Context context) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, MyBroadcastReceiver.class);
-        intent.putExtra("alarm", this);
+//        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+//        try(ObjectOutputStream out = new ObjectOutputStream(bao)) {
+//            out.writeObject(this);
+//            out.flush();
+//            byte[] data = bao.toByteArray();
+//            Toast.makeText(context, "byte array is: " + data.toString(), Toast.LENGTH_SHORT).show();
+//            intent.putExtra("alarm", data);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Toast.makeText(context, "Failed to turn object to byte array", Toast.LENGTH_SHORT).show();
+//        }
+        Gson g = new Gson();
+        String s = g.toJson(this);
+        intent.putExtra("alarm", s);
         String id = this.getId().replaceAll("[^0-9]+", "");
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, Integer.parseInt(id), intent, 0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, Integer.parseInt(id), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());

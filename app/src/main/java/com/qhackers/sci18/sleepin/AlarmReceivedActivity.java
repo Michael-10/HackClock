@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.sql.Time;
 
 public class AlarmReceivedActivity extends AppCompatActivity {
@@ -29,10 +31,13 @@ public class AlarmReceivedActivity extends AppCompatActivity {
         TextView tvTime = (TextView) findViewById(R.id.tv_time);
         String lTime = "11:05";
         tvTime.setText(lTime);
-
-        Intent intent = new Intent();
-        Alarm alarm = intent.getParcelableExtra("alarm");
+        Intent intent = getIntent();
+        String s = intent.getStringExtra("alarm");
+        Toast.makeText(getApplicationContext(), "Alarm is: " + s, Toast.LENGTH_SHORT).show();
+        Gson g = new Gson();
+        Alarm alarm = g.fromJson(s, Alarm.class);
         Uri ringtoneUri = Uri.parse(alarm.getRingtone());
+        Toast.makeText(getApplicationContext(), "Ringtone is: " + alarm.getRingtone(), Toast.LENGTH_SHORT).show();
         try {
             MediaPlayer mMediaPlayer = new MediaPlayer();
             mMediaPlayer.setDataSource(this, ringtoneUri);
