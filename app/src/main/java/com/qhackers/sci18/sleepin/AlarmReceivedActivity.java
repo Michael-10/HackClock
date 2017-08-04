@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,8 +31,10 @@ public class AlarmReceivedActivity extends AppCompatActivity {
         String lTime = "11:05";
         tvTime.setText(lTime);
 
-        Intent intent = new Intent();
+        Intent intent = getIntent();
+
         Alarm alarm = intent.getParcelableExtra("alarm");
+        Log.d("alarmReceived", alarm.toString());
         Uri ringtoneUri = Uri.parse(alarm.getRingtone());
         try {
             MediaPlayer mMediaPlayer = new MediaPlayer();

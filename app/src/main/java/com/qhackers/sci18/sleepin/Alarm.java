@@ -39,6 +39,7 @@ public class Alarm implements Parcelable {
         vibrate = in.readByte() != 0;
         alarmName = in.readString();
         id = in.readString();
+        ringtone = in.readString();
     }
 
     public static final Creator<Alarm> CREATOR = new Creator<Alarm>() {
@@ -114,6 +115,7 @@ public class Alarm implements Parcelable {
         parcel.writeByte((byte) (vibrate ? 1 : 0));
         parcel.writeString(alarmName);
         parcel.writeString(id);
+        parcel.writeString(ringtone);
     }
 
     public String getRingtone() {
@@ -156,5 +158,14 @@ public class Alarm implements Parcelable {
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, Integer.parseInt(id), intent, 0);
         alarmIntent.cancel();
         am.cancel(alarmIntent);
+    }
+
+    @Override
+    public String toString() {
+        if (this.getRingtone() != null) {
+            return "Hour: " + this.getHour() + "\nMinute: " + this.getMinute() + "\nRingtone: " + this.getRingtone();
+        } else {
+            return "Hour: " + this.getHour() + "\nMinute: " + this.getMinute();
+        }
     }
 }
