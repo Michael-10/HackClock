@@ -6,14 +6,22 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 public class MyBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent i = new Intent();
-        Alarm alarm = intent.getParcelableExtra("alarm");
-        i.putExtra("alarm", alarm);
-        i.setClassName("com.qhackers.sci18.sleepin", "com.qhackers.sci18.sleepin.AlarmReceivedActivity");
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(i);
+
+        String s = intent.getStringExtra("alarm");
+
+        Intent myIntent = new Intent();
+        Toast.makeText(context, "Alarm is 1: " + s, Toast.LENGTH_SHORT).show();
+        myIntent.setClassName("com.qhackers.sci18.sleepin", "com.qhackers.sci18.sleepin.AlarmReceivedActivity");
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        myIntent.putExtra("alarm", s);
+
+        context.startActivity(myIntent);
     }
 }

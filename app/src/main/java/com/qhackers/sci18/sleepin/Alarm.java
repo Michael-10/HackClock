@@ -7,7 +7,15 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOError;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.Calendar;
 
 /**
@@ -128,14 +136,17 @@ public class Alarm implements Parcelable {
 
     /**
      * Schedules a PendingIntent for the alarm.
-     * @param aContext Activity context
+     * @param context Activity context
      */
-    public void scheduleAlarm(Context aContext) {
-        AlarmManager am = (AlarmManager) aContext.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(aContext, MyBroadcastReceiver.class);
-        intent.putExtra("alarm", this);
-        String id = this.getId().replaceAll("[^0-9]+", "");     // this.getId returns a string such as "alarm1". We only need the "1".
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(aContext, Integer.parseInt(id), intent, 0);
+    public void scheduleAlarm(Context context) {
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, MyBroadcastReceiver.class);
+
+        Gson g = new Gson();
+        String s = g.toJson(this);
+        intent.putExtra("alarm", s);
+        String id = this.getId().replaceAll("[^0-9]+", "");
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, Integer.parseInt(id), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
