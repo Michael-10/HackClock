@@ -31,6 +31,7 @@ public class AlarmReceivedActivity extends AppCompatActivity {
         TextView tvTime = (TextView) findViewById(R.id.tv_time);
         String lTime = "11:05";
         tvTime.setText(lTime);
+
         Intent intent = getIntent();
         String s = intent.getStringExtra("alarm");
         Toast.makeText(getApplicationContext(), "Alarm is: " + s, Toast.LENGTH_SHORT).show();
