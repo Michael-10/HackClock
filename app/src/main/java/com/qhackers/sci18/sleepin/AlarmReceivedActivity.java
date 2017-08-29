@@ -2,6 +2,7 @@ package com.qhackers.sci18.sleepin;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.util.Calendar;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -22,6 +23,8 @@ import java.sql.Time;
 
 public class AlarmReceivedActivity extends AppCompatActivity {
 
+    private Alarm alarmReceived;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +40,10 @@ public class AlarmReceivedActivity extends AppCompatActivity {
         String s = intent.getStringExtra("alarm");
         Toast.makeText(getApplicationContext(), "Alarm is: " + s, Toast.LENGTH_SHORT).show();
         Gson g = new Gson();
-        Alarm alarm = g.fromJson(s, Alarm.class);
+        alarmReceived = g.fromJson(s, Alarm.class);
 
-        Uri ringtoneUri = Uri.parse(alarm.getRingtone());
-        Toast.makeText(getApplicationContext(), "Ringtone is: " + alarm.getRingtone(), Toast.LENGTH_SHORT).show();
+        Uri ringtoneUri = Uri.parse(alarmReceived.getRingtone());
+        Toast.makeText(getApplicationContext(), "Ringtone is: " + alarmReceived.getRingtone(), Toast.LENGTH_SHORT).show();
         try {
             MediaPlayer mMediaPlayer = new MediaPlayer();
             mMediaPlayer.setDataSource(this, ringtoneUri);
@@ -57,7 +60,25 @@ public class AlarmReceivedActivity extends AppCompatActivity {
     }
 
     public void dismissButtonClick(View view) {
+        Context context = getApplicationContext();
+        alarmReceived.cancelAlarm(context);
+        alarmReceived.setIsSet(false);
+        writeAlarmToSharedPrefs(alarmReceived, context);
+        alarmReceived.cancelAlarm(context);
+        System.exit(0);
+    }
 
+    private void writeAlarmToSharedPrefs(Alarm alarmReceived, Context context) {
+        String alarm = getAlarmObjectAsJson(alarmReceived);
+        SharedPreferences sPrefs = getApplicationContext().getSharedPreferences("Sleepin", MODE_PRIVATE);
+        SharedPreferences.Editor pe = sPrefs.edit();
+        pe.putString(alarmReceived.getId(), alarm);
+        pe.apply();
+    }
+
+    private String getAlarmObjectAsJson(Alarm a) {
+        Gson g = new Gson();
+        return g.toJson(a);
     }
 
     public void snoozeButtonClick(View view) {
