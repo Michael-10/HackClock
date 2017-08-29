@@ -185,7 +185,7 @@ public class AlarmListActivity extends AppCompatActivity {
                     Alarm lAlarm = gson.fromJson(alarmString, Alarm.class);
                     alarmList.add(lAlarm);
 
-                    setAlarm(lAlarm);
+                    lAlarm.scheduleAlarm(getApplicationContext());
                 }
             }
             // Sort alarms based on hours, then minutes
@@ -202,22 +202,6 @@ public class AlarmListActivity extends AppCompatActivity {
             });
             alarmAdapter.notifyDataSetChanged();
         }
-    }
-
-    private void setAlarm(Alarm aAlarm) {
-        AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);;
-        Intent intent = new Intent(this, MyBroadcastReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, aAlarm.getHour());
-        calendar.set(Calendar.MINUTE, aAlarm.getMinute());
-
-        Log.d("received", "Hour: " + aAlarm.getHour());
-        Log.d("received", "Minute: " + aAlarm.getMinute());
-
-        am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
     }
 
 }
