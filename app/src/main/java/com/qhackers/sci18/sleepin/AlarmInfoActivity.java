@@ -88,6 +88,7 @@ public class AlarmInfoActivity extends AppCompatActivity {
         String alarmName = getAlarmName();
         String id = getAlarmID();
         Alarm a = new Alarm(hour, minute, true, isVibrate, alarmName, id);
+
         final TextView tv = (TextView) findViewById(R.id.selectRingtone);
         String ringtone = tv.getText().toString();
         a.setRingtone(ringtone);
