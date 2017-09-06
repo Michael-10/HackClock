@@ -16,6 +16,7 @@ import java.io.IOError;
 import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -30,6 +31,7 @@ public class Alarm implements Parcelable {
     private String alarmName;   // Name of the alarm (optional)
     private String id;          // Key of the alarm to be stored in SharedPreferences
     private String ringtone;
+    private ArrayList<Integer> repeatDays = new ArrayList<>();
 
     public Alarm(int hour, int minute, boolean isSet, boolean vibrate, String alarmName, String id) {
         this.hour = hour;
@@ -60,6 +62,18 @@ public class Alarm implements Parcelable {
             return new Alarm[size];
         }
     };
+
+    public void addDay(int day) {
+        if (!repeatDays.contains(day)) {
+            this.repeatDays.add(day);
+        }
+    }
+
+    public void removeDay(int day) {
+        if (repeatDays.contains(day)) {
+            this.repeatDays.add(day);
+        }
+    }
 
     public boolean getIsSet() {
         return isSet;
@@ -160,8 +174,10 @@ public class Alarm implements Parcelable {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, this.getHour());
         calendar.set(Calendar.MINUTE, this.getMinute());
-
-        am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
+        for (int i : repeatDays) {
+            calendar.set(Calendar.DAY_OF_WEEK, i);
+            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
+        }
     }
 
     /**
