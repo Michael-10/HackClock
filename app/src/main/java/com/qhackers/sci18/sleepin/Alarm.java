@@ -166,7 +166,7 @@ public class Alarm implements Parcelable {
         Intent intent = new Intent(context, MyBroadcastReceiver.class);
         intent.putExtra("alarm", this);
         String id = this.getId().replaceAll("[^0-9]+", "");
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, Integer.parseInt(id), intent, 0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, Integer.parseInt(id), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmIntent.cancel();
         am.cancel(alarmIntent);
     }
