@@ -15,7 +15,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         String alarm = intent.getStringExtra("alarm");
-
+        Log.d("alarmReceived", "Received alarm");
         Intent myIntent = new Intent();
         Toast.makeText(context, "Alarm is 1: " + alarm, Toast.LENGTH_SHORT).show();
         myIntent.setClassName("com.qhackers.sci18.sleepin", "com.qhackers.sci18.sleepin.AlarmReceivedActivity");

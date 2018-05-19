@@ -162,11 +162,12 @@ public class Alarm implements Parcelable {
      * @param context
      */
     public void cancelAlarm(Context context) {
+        // TODO store pending intent in alarm object and use that
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, MyBroadcastReceiver.class);
         intent.putExtra("alarm", this);
         String id = this.getId().replaceAll("[^0-9]+", "");
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, Integer.parseInt(id), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, Integer.parseInt(id), intent, PendingIntent.FLAG_CANCEL_CURRENT);
         alarmIntent.cancel();
         am.cancel(alarmIntent);
     }
